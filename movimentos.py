@@ -15,6 +15,9 @@ def possibilidades(tabuleiro, origem, cor):
   # Verificando se a peça é um cavalo
   elif peca in ['p_cavalo', 'b_cavalo']:
     return cavaloPossibilidades(tabuleiro, origem, cor)
+  # Verificando se a peça é uma torre
+  elif peca in ['p_torre', 'b_torre']:
+    return torrePossibilidades(tabuleiro, origem, cor)
 
 # Função que retorna todas as possibilidades de movimento caso a peça seja o peão
 def peaoPossibilidades(tabuleiro, origem, cor):
@@ -142,6 +145,104 @@ def cavaloPossibilidades(tabuleiro, origem, cor):
           resultado.append([linha-1, coluna-2])
 
   return resultado
+
+
+def torrePossibilidades(tabuleiro, origem, cor):
+  linha = f.linha(origem)
+  coluna = f.coluna(origem)
+  resultado = []
+
+  if cor == 'branca': # Possibilidades de movimentos para as peças brancas
+    # Movimento da peça para cima
+    if linha > 0:
+      for i in range(linha-1, 0, -1):
+        if tabuleiro[i][coluna] in pecasBrancas:
+          break
+        elif tabuleiro[i][coluna] in pecasPretas:
+          resultado.append([i, coluna])
+          break
+        elif tabuleiro[i][coluna] in quadrados:
+          resultado.append([i, coluna])
+
+    # Movimento da peça para baixo
+    if linha < 7:
+      for i in range(linha, 8):
+        if tabuleiro[i][coluna] in pecasBrancas:
+          break
+        elif tabuleiro[i][coluna] in pecasPretas:
+          resultado.append([i, coluna])
+          break
+        elif tabuleiro[i][coluna] in quadrados:
+          resultado.append([i, coluna])
+    
+    # Movimento da peça para o lado direito
+    if coluna < 7:
+      for i in range(coluna+1, 8):
+        if tabuleiro[linha][i] in pecasBrancas:
+          break
+        elif tabuleiro[linha][i] in pecasPretas:
+          resultado.append([linha, i])
+          break
+        elif tabuleiro[linha][i] in quadrados:
+          resultado.append([linha, i])
+
+    # Movimento da peça para o lado esquerdo
+    if coluna > 0:
+      for i in range(coluna-1, 0, -1):
+        if tabuleiro[linha][i] in pecasBrancas:
+          break
+        elif tabuleiro[linha][i] in pecasPretas:
+          resultado.append([linha, i])
+          break
+        elif tabuleiro[linha][i] in quadrados:
+          resultado.append([linha, i])
+
+  if cor == 'preta': # Possibilidades de movimentos para as peças pretas
+    # Movimento da peça para cima
+    if linha > 0:
+      for i in range(linha-1, 0, -1):
+        if tabuleiro[i][coluna] in pecasPretas:
+          break
+        elif tabuleiro[i][coluna] in pecasBrancas:
+          resultado.append([i, coluna])
+          break
+        elif tabuleiro[i][coluna] in quadrados:
+          resultado.append([i, coluna])
+
+    # Movimento da peça para baixo
+    if linha < 7:
+      for i in range(linha, 8):
+        if tabuleiro[i][coluna] in pecasPretas:
+          break
+        elif tabuleiro[i][coluna] in pecasBrancas:
+          resultado.append([i, coluna])
+          break
+        elif tabuleiro[i][coluna] in quadrados:
+          resultado.append([i, coluna])
+    
+    # Movimento da peça para o lado direito
+    if coluna < 7:
+      for i in range(coluna+1, 8):
+        if tabuleiro[linha][i] in pecasPretas:
+          break
+        elif tabuleiro[linha][i] in pecasBrancas:
+          resultado.append([linha, i])
+          break
+        elif tabuleiro[linha][i] in quadrados:
+          resultado.append([linha, i])
+
+    # Movimento da peça para o lado esquerdo
+    if coluna > 0:
+      for i in range(coluna-1, 0, -1):
+        if tabuleiro[linha][i] in pecasPretas:
+          break
+        elif tabuleiro[linha][i] in pecasBrancas:
+          resultado.append([linha, i])
+          break
+        elif tabuleiro[linha][i] in quadrados:
+          resultado.append([linha, i])
+  return resultado
+
 
 # Função para verificar se o destino da peça está dentro das possibilidades determinadas na função possibilidades()
 def verificarDestinoValido(destino, possibilidades):
