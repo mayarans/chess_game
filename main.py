@@ -1,7 +1,7 @@
 import movimentos as m
 import funcs_auxiliares as f
 import tabuleiro as t
-import estilos
+import estilos as e
 
 # Chamando a função de carregamento do jogo
 f.loading()
@@ -15,7 +15,12 @@ print('''
 ██╔╝ ██╗██║  ██║██████╔╝██║  ██║███████╗███████╗    
 ╚═╝  ╚═╝╚═╝  ╚═╝╚═════╝ ╚═╝  ╚═╝╚══════╝╚══════╝    
                                                     ''')
-print(f'INSTRUÇÕES:\n1. {estilos.estilos["MAGENTA_NEGRITO"]}Cada jogador realizará apenas uma jogada por vez;{estilos.estilos["RESET"]}\n2. {estilos.estilos["MAGENTA_NEGRITO"]}Informe a coluna (identificada pelas letras de A a H) e a linha (identificadas de 1 a 8) onde a peça que você deseja mover está localizada;{estilos.estilos["RESET"]}\n3. {estilos.estilos["MAGENTA_NEGRITO"]}Em seguida, determine o movimento de sua peça, também, através da coluna e linha de destino;{estilos.estilos["RESET"]}\n4. {estilos.estilos["MAGENTA_NEGRITO"]}Divirta-se! 😜{estilos.estilos["RESET"]}\n')
+print(f'''INSTRUÇÕES:\n
+1. {e.estilos["MAGENTA_NEGRITO"]}Cada jogador realizará apenas um movimento por vez;{e.estilos["RESET"]}
+2. {e.estilos["MAGENTA_NEGRITO"]}O jogador com as peças brancas sempre move primeiro;{e.estilos["RESET"]}
+3. {e.estilos["MAGENTA_NEGRITO"]}Indique a posição de origem e de destino da peça que deseja mover. Para isso, informe a coluna (identificada pelas letras de A a H) e a linha (que vai de 1 a 8) onde a peça que você deseja mover está localizada;{e.estilos["RESET"]}
+4. {e.estilos["MAGENTA_NEGRITO"]}A partida termina quando ocorrer xeque-mate;{e.estilos["RESET"]}
+5. {e.estilos["MAGENTA_NEGRITO"]}Divirta-se! 😜{e.estilos["RESET"]}\n''')
 
 # A montagem do tabuleiro retorna a matriz que será armazenada na variável "tabuleiro"
 tabuleiro = t.montarTabuleiro()
