@@ -1,5 +1,10 @@
 import funcs_auxiliares as f
 
+# Variáveis utilizadas em todas as funções de movimento
+quadrados = ['p_quadrado', 'b_quadrado']
+pecasPretas = ['p_torre', 'p_cavalo', 'p_bispo', 'p_rainha', 'p_rei', 'p_bispo', 'p_cavalo', 'p_torre', 'p_peao']
+pecasBrancas = ['b_torre', 'b_cavalo', 'b_bispo', 'b_rainha', 'b_rei', 'b_bispo', 'b_cavalo', 'b_torre', 'b_peao']
+
 # Função que retorna uma lista de movimentos possíveis para a peça escolhida pelo jogador
 def possibilidades(tabuleiro, origem, cor):
   # Guardando o valor da peça na variável
@@ -7,16 +12,17 @@ def possibilidades(tabuleiro, origem, cor):
   # Verificando se a peça é um peão
   if peca in ['p_peao', 'b_peao']:
     return peaoPossibilidades(tabuleiro, origem, cor)
+  # Verificando se a peça é um cavalo
+  elif peca in ['p_cavalo', 'b_cavalo']:
+    return cavaloPossibilidades(tabuleiro, origem, cor)
 
 # Função que retorna todas as possibilidades de movimento caso a peça seja o peão
 def peaoPossibilidades(tabuleiro, origem, cor):
   linha = f.linha(origem)
   coluna = f.coluna(origem)
   resultado = []
-  quadrados = ['p_quadrado', 'b_quadrado']
-  pecasPretas = ['p_torre', 'p_cavalo', 'p_bispo', 'p_rainha', 'p_rei', 'p_bispo', 'p_cavalo', 'p_torre', 'p_peao']
-  pecasBrancas = ['b_torre', 'b_cavalo', 'b_bispo', 'b_rainha', 'b_rei', 'b_bispo', 'b_cavalo', 'b_torre', 'b_peao']
-  if cor == 'branca':
+
+  if cor == 'branca': # Condição para as peças brancas
     # Movimento do peão duas casas para frente caso seja a primeira jogada
     if linha == 6:
       if tabuleiro[linha - 2][coluna] in quadrados:
@@ -36,7 +42,8 @@ def peaoPossibilidades(tabuleiro, origem, cor):
         if (tabuleiro[linha - 1][coluna - 1] in pecasPretas):
           lista = [linha - 1, coluna - 1]
           resultado.append(lista)
-  elif cor == 'preta':
+  
+  elif cor == 'preta': # Condição para as peças pretas
     # Movimento do peão duas casas para frente caso seja a primeira jogada
     if linha == 1:
       if tabuleiro[linha + 2][coluna] in quadrados:
@@ -58,6 +65,84 @@ def peaoPossibilidades(tabuleiro, origem, cor):
           resultado.append(lista)
   return resultado
 
+# Função que retorna todas as possibilidades de movimento caso a peça seja o cavalo
+def cavaloPossibilidades(tabuleiro, origem, cor):
+  linha = f.linha(origem)
+  coluna = f.coluna(origem)
+  resultado = []
+
+  if cor == 'branca': # Condição para as peças brancas
+    # Movimento do cavalo em forma de L para as quatro direções:
+    # Para baixo
+    if linha < 6: 
+      if coluna < 7:
+        if (tabuleiro[linha + 2][coluna + 1] in quadrados) or (tabuleiro[linha + 2][coluna + 1] in pecasPretas):
+          resultado.append([linha + 2, coluna + 1])
+      if coluna > 0:
+        if (tabuleiro[linha + 2][coluna - 1] in quadrados) or (tabuleiro[linha + 2][coluna - 1] in pecasPretas):
+          resultado.append([linha + 2, coluna - 1])
+    # Para cima
+    if linha > 1:
+      if coluna < 7:
+        if (tabuleiro[linha - 2][coluna + 1] in quadrados) or (tabuleiro[linha - 2][coluna + 1] in pecasPretas):
+          resultado.append([linha - 2, coluna + 1])
+      if coluna > 0:
+        if (tabuleiro[linha - 2][coluna - 1] in quadrados) or (tabuleiro[linha - 2][coluna - 1] in pecasPretas):
+          resultado.append([linha - 2, coluna - 1])
+    # Lado direito
+    if coluna < 6:
+      if linha < 7:
+        if (tabuleiro[linha+1][coluna+2] in quadrados) or (tabuleiro[linha+1][coluna+2] in pecasPretas):
+          resultado.append([linha+1, coluna+2])
+      if linha > 0:
+        if (tabuleiro[linha-1][coluna+2] in quadrados) or (tabuleiro[linha-1][coluna+2] in pecasPretas):
+          resultado.append([linha-1, coluna+2])
+    # Lado esquerdo
+    if coluna > 1:
+      if linha > 0:
+        if (tabuleiro[linha+1][coluna-2] in quadrados) or (tabuleiro[linha+1][coluna-2] in pecasPretas):
+          resultado.append([linha+1, coluna-2])
+      if linha < 7:
+        if (tabuleiro[linha-1][coluna-2] in quadrados) or (tabuleiro[linha-1][coluna-2] in pecasPretas):
+          resultado.append([linha-1, coluna-2])
+    
+  elif cor == 'preta': # Condição para as peças pretas
+    # Movimento do cavalo em forma de L para as quatro direções:
+    # Para baixo
+    if linha < 6: 
+      if coluna < 7:
+        if (tabuleiro[linha + 2][coluna + 1] in quadrados) or (tabuleiro[linha + 2][coluna + 1] in pecasBrancas):
+          resultado.append([linha + 2, coluna + 1])
+      if coluna > 0:
+        if (tabuleiro[linha + 2][coluna - 1] in quadrados) or (tabuleiro[linha + 2][coluna - 1] in pecasBrancas):
+          resultado.append([linha + 2, coluna - 1])
+    # Para cima
+    if linha > 1:
+      if coluna < 7:
+        if (tabuleiro[linha - 2][coluna + 1] in quadrados) or (tabuleiro[linha - 2][coluna + 1] in pecasBrancas):
+          resultado.append([linha - 2, coluna + 1])
+      if coluna > 0:
+        if (tabuleiro[linha - 2][coluna - 1] in quadrados) or (tabuleiro[linha - 2][coluna - 1] in pecasBrancas):
+          resultado.append([linha - 2, coluna - 1])
+    # Lado direito
+    if coluna < 6:
+      if linha < 7:
+        if (tabuleiro[linha+1][coluna+2] in quadrados) or (tabuleiro[linha+1][coluna+2] in pecasBrancas):
+          resultado.append([linha+1, coluna+2])
+      if linha > 0:
+        if (tabuleiro[linha-1][coluna+2] in quadrados) or (tabuleiro[linha-1][coluna+2] in pecasBrancas):
+          resultado.append([linha-1, coluna+2])
+    # Lado esquerdo
+    if coluna > 1:
+      if linha > 0:
+        if (tabuleiro[linha+1][coluna-2] in quadrados) or (tabuleiro[linha+1][coluna-2] in pecasBrancas):
+          resultado.append([linha+1, coluna-2])
+      if linha < 7:
+        if (tabuleiro[linha-1][coluna-2] in quadrados) or (tabuleiro[linha-1][coluna-2] in pecasBrancas):
+          resultado.append([linha-1, coluna-2])
+
+  return resultado
+
 # Função para verificar se o destino da peça está dentro das possibilidades determinadas na função possibilidades()
 def verificarDestinoValido(destino, possibilidades):
   posicaoDestino = [f.linha(destino), f.coluna(destino)]
@@ -66,9 +151,8 @@ def verificarDestinoValido(destino, possibilidades):
 # Função para realizar o movimento da peça e substituir sua posição de origem pelo quadrado correspondente
 def realizarMovimento(tabuleiro, origem, destino):
   tabuleiro[f.linha(destino)][f.coluna(destino)] = tabuleiro[f.linha(origem)][f.coluna(origem)]
+  # Lógica para identificar se o quadrado é branco ou preto
   if (f.linha(origem) + f.coluna(origem)) % 2 == 0:
     tabuleiro[f.linha(origem)][f.coluna(origem)] = 'b_quadrado'
   else:
     tabuleiro[f.linha(origem)][f.coluna(origem)] = 'p_quadrado'
-
-
