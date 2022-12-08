@@ -39,6 +39,13 @@ def verificarOrigemValida(tabuleiro, origem, cor):
 
   return resposta
 
+# Função que define o jogador na rodada atual
+def jogadorDaVez(cor, jogador1, jogador2):
+  if cor == 'branca':
+    print(f'{e.estilos["CIANO_NEGRITO"]}Jogador da vez: {jogador1.upper()}{e.estilos["RESET"]}')
+  else: # Cor preta
+    print(f'{e.estilos["CIANO_NEGRITO"]}Jogador da vez: {jogador2.upper()}{e.estilos["RESET"]}')
+
 # Função auxiliar para simular o carregamento do jogo de xadrez
 def loading():
   print("Carregando o jogo...")
