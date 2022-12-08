@@ -41,6 +41,7 @@ while True:
     break
   while True:
     # Recebendo a origem da jogada do usuário
+    f.jogadorDaVez(cor, jogador1, jogador2)
     origemJogada = input('Origem (ex.: e5): ')
     # Chamando a função para verificar se a origem é válida
     verificacao = f.verificarOrigemValida(tabuleiro, origemJogada, cor)
@@ -48,7 +49,7 @@ while True:
       # Chamando a função que verifica a possibilidade de movimentar a peça
       possibilidades = m.possibilidades(tabuleiro, origemJogada, cor)
       if possibilidades == []:
-        print('Não é possível mover esta peça no momento. Tente novamente!')
+        print(f'\n{e.estilos["VERMELHO"]}Não é possível mover esta peça no momento. Tente novamente!{e.estilos["RESET"]}\n')
         continue
       else:
         print(possibilidades)
@@ -65,7 +66,7 @@ while True:
     if verificacao == True:
       break
     else:
-      print('Este não é um movimento válido para esta peça. Tente novamente!')
+      print(f'\n{e.estilos["VERMELHO"]}Este não é um movimento válido para esta peça. Tente novamente!{e.estilos["RESET"]}\n')
       continue
   # Chamando a função que define o movimento a ser feito
   m.realizarMovimento(tabuleiro, origemJogada, destinoJogada)
