@@ -1,5 +1,6 @@
 # Estilos para texto utilizados no projeto
 estilos = {
+  'CIANO_NEGRITO': "\u001b[36;1m",
   'NEGRITO': "\u001b[1m",
   'MAGENTA_NEGRITO': "\u001b[35;1m",
   'VERMELHO': "\u001b[31m",
