@@ -18,6 +18,10 @@ def possibilidades(tabuleiro, origem, cor):
   # Verificando se a peça é uma torre
   elif peca in ['p_torre', 'b_torre']:
     return torrePossibilidades(tabuleiro, origem, cor)
+  elif peca in ['p_bispo','b_bispo']:
+    return bispoPossibilidades(tabuleiro,origem,cor)
+  elif peca in['b_rainha','p_rainha']:
+    return rainhaPossibilidades(tabuleiro,origem,cor)
 
 # Função que retorna todas as possibilidades de movimento caso a peça seja o peão
 def peaoPossibilidades(tabuleiro, origem, cor):
@@ -166,7 +170,7 @@ def torrePossibilidades(tabuleiro, origem, cor):
 
     # Movimento da peça para baixo
     if linha < 7:
-      for i in range(linha, 8):
+      for i in range(linha+1, 8):
         if tabuleiro[i][coluna] in pecasBrancas:
           break
         elif tabuleiro[i][coluna] in pecasPretas:
@@ -211,7 +215,7 @@ def torrePossibilidades(tabuleiro, origem, cor):
 
     # Movimento da peça para baixo
     if linha < 7:
-      for i in range(linha, 8):
+      for i in range(linha+1, 8):
         if tabuleiro[i][coluna] in pecasPretas:
           break
         elif tabuleiro[i][coluna] in pecasBrancas:
@@ -242,6 +246,377 @@ def torrePossibilidades(tabuleiro, origem, cor):
         elif tabuleiro[linha][i] in quadrados:
           resultado.append([linha, i])
   return resultado
+
+def bispoPossibilidades(tabuleiro,origem,cor):
+  linha = f.linha(origem)
+  coluna = f.coluna(origem)
+  resultado = []
+  contLinha= linha
+  contColuna= coluna
+  if cor == 'branca':
+    #Movimento superior direito do bispo
+    while True:
+      if contColuna>= 7 or contLinha<=0:
+        break
+      else:
+        contLinha-=1
+        contColuna+=1
+        if tabuleiro[contLinha][contColuna] in pecasBrancas:
+            break
+        if tabuleiro[contLinha][contColuna] in pecasPretas:
+          resultado.append([contLinha,contColuna])
+          break
+        if tabuleiro[contLinha][contColuna] in quadrados:
+          resultado.append([contLinha,contColuna])
+    contLinha= linha
+    contColuna= coluna
+    #movimento superior esquerdo
+    while True:
+      if contColuna <= 0 or contLinha<=0:
+        break
+      else:
+        contLinha-=1
+        contColuna-=1
+        if tabuleiro[contLinha][contColuna] in pecasBrancas:
+          break
+        if tabuleiro[contLinha][contColuna] in pecasPretas:
+          resultado.append([contLinha,contColuna])
+          break
+        if tabuleiro[contLinha][contColuna] in quadrados:
+          resultado.append([contLinha,contColuna])
+    contLinha= linha
+    contColuna= coluna      
+    #Movimento inferior direito
+    while True:
+      if contColuna >= 7 or contLinha >= 7:
+        break
+      else:
+        contLinha+=1
+        contColuna+=1
+        print(contLinha,contColuna)
+        if tabuleiro[contLinha][contColuna] in pecasBrancas:
+            break
+        if tabuleiro[contLinha][contColuna] in pecasPretas:
+          resultado.append([contLinha,contColuna])
+          break
+        if tabuleiro[contLinha][contColuna] in quadrados:
+          resultado.append([contLinha,contColuna])
+    contLinha= linha
+    contColuna= coluna
+    #Movimento inferior esquerdo   
+    while True:
+      if contColuna <= 0 or contLinha >= 7:
+        break
+      else:
+        contLinha+=1
+        contColuna-=1
+        if tabuleiro[contLinha][contColuna] in pecasBrancas:
+            break
+        if tabuleiro[contLinha][contColuna] in pecasPretas:
+          resultado.append([contLinha,contColuna])
+          break
+        if tabuleiro[contLinha][contColuna] in quadrados:
+          resultado.append([contLinha,contColuna])
+    contLinha= linha
+    contColuna= coluna   
+
+  elif cor == 'preta':
+    #Movimento superior direito do bispo
+    while True:
+      if contColuna>= 7 or contLinha<=0:
+        break
+      else:
+        contLinha-=1
+        contColuna+=1
+        if tabuleiro[contLinha][contColuna] in pecasPretas:
+            break
+        if tabuleiro[contLinha][contColuna] in pecasBrancas:
+          resultado.append([contLinha,contColuna])
+          break
+        if tabuleiro[contLinha][contColuna] in quadrados:
+          resultado.append([contLinha,contColuna])
+    contLinha= linha
+    contColuna= coluna
+    #movimento superior esquerdo
+    while True:
+      if contColuna <= 0 or contLinha<=0:
+        break
+      else:
+        contLinha-=1
+        contColuna-=1
+        if tabuleiro[contLinha][contColuna] in pecasPretas:
+            break
+        if tabuleiro[contLinha][contColuna] in pecasBrancas:
+          resultado.append([contLinha,contColuna])
+          break
+        if tabuleiro[contLinha][contColuna] in quadrados:
+          resultado.append([contLinha,contColuna])
+    contLinha= linha
+    contColuna= coluna      
+    #Movimento inferior direito
+    while True:
+      if contColuna >= 7 or contLinha >= 7:
+        break
+      else:
+        contLinha+=1
+        contColuna+=1
+        if tabuleiro[contLinha][contColuna] in pecasPretas:
+            break
+        if tabuleiro[contLinha][contColuna] in pecasBrancas:
+          resultado.append([contLinha,contColuna])
+          break
+        if tabuleiro[contLinha][contColuna] in quadrados:
+          resultado.append([contLinha,contColuna])
+    contLinha= linha
+    contColuna= coluna
+    #Movimento inferior esquerdo   
+    while True:
+      if contColuna < 0 or contLinha > 7:
+        break
+      else:
+        contLinha+=1
+        contColuna-=1
+        if tabuleiro[contLinha][contColuna] in pecasPretas:
+            break
+        if tabuleiro[contLinha][contColuna] in pecasBrancas:
+          resultado.append([contLinha,contColuna])
+          break
+        if tabuleiro[contLinha][contColuna] in quadrados:
+          resultado.append([contLinha,contColuna])
+    contLinha= linha
+    contColuna= coluna   
+  return resultado    
+
+def rainhaPossibilidades(tabuleiro,origem,cor):
+  linha = f.linha(origem)
+  coluna = f.coluna(origem)
+  resultado = []
+  contLinha= linha
+  contColuna= coluna
+
+  if cor == 'branca':
+    #MOVIMENTOS VERTICAIS E HORIZONTAIS
+    # Movimento da peça para cima
+    if linha > 0:
+      for i in range(linha-1, 0, -1):
+        if tabuleiro[i][coluna] in pecasBrancas:
+          break
+        elif tabuleiro[i][coluna] in pecasPretas:
+          resultado.append([i, coluna])
+          break
+        elif tabuleiro[i][coluna] in quadrados:
+          resultado.append([i, coluna])
+
+    # Movimento da peça para baixo
+    if linha < 7:
+      for i in range(linha+1, 8):
+        if tabuleiro[i][coluna] in pecasBrancas:
+          break
+        if tabuleiro[i][coluna] in pecasPretas:
+          resultado.append([i, coluna])
+          break
+        if tabuleiro[i][coluna] in quadrados:
+          resultado.append([i, coluna])
+    
+    # Movimento da peça para o lado direito
+    if coluna < 7:
+      for i in range(coluna+1, 8):
+        if tabuleiro[linha][i] in pecasBrancas:
+          break
+        elif tabuleiro[linha][i] in pecasPretas:
+          resultado.append([linha, i])
+          break
+        elif tabuleiro[linha][i] in quadrados:
+          resultado.append([linha, i])
+
+    # Movimento da peça para o lado esquerdo
+    if coluna > 0:
+      for i in range(coluna-1, 0, -1):
+        if tabuleiro[linha][i] in pecasBrancas:
+          break
+        elif tabuleiro[linha][i] in pecasPretas:
+          resultado.append([linha, i])
+          break
+        elif tabuleiro[linha][i] in quadrados:
+          resultado.append([linha, i])
+    #MOVIMENTOS DIAGONAIS
+    #Movimento superior direito do bispo
+    while True:
+      if contColuna>= 7 or contLinha<=0:
+        break
+      else:
+        contLinha-=1
+        contColuna+=1
+        if tabuleiro[contLinha][contColuna] in pecasBrancas:
+            break
+        if tabuleiro[contLinha][contColuna] in pecasPretas:
+          resultado.append([contLinha,contColuna])
+          break
+        if tabuleiro[contLinha][contColuna] in quadrados:
+          resultado.append([contLinha,contColuna])
+    contLinha= linha
+    contColuna= coluna
+    #movimento superior esquerdo
+    while True:
+      if contColuna <= 0 or contLinha<=0:
+        break
+      else:
+        contLinha-=1
+        contColuna-=1
+        if tabuleiro[contLinha][contColuna] in pecasBrancas:
+          break
+        if tabuleiro[contLinha][contColuna] in pecasPretas:
+          resultado.append([contLinha,contColuna])
+          break
+        if tabuleiro[contLinha][contColuna] in quadrados:
+          resultado.append([contLinha,contColuna])
+    contLinha= linha
+    contColuna= coluna      
+    #Movimento inferior direito
+    while True:
+      if contColuna >= 7 or contLinha >= 7:
+        break
+      else:
+        contLinha+=1
+        contColuna+=1
+        print(contLinha,contColuna)
+        if tabuleiro[contLinha][contColuna] in pecasBrancas:
+            break
+        if tabuleiro[contLinha][contColuna] in pecasPretas:
+          resultado.append([contLinha,contColuna])
+          break
+        if tabuleiro[contLinha][contColuna] in quadrados:
+          resultado.append([contLinha,contColuna])
+    contLinha= linha
+    contColuna= coluna
+    #Movimento inferior esquerdo   
+    while True:
+      if contColuna <= 0 or contLinha >= 7:
+        break
+      else:
+        contLinha+=1
+        contColuna-=1
+        if tabuleiro[contLinha][contColuna] in pecasBrancas:
+            break
+        if tabuleiro[contLinha][contColuna] in pecasPretas:
+          resultado.append([contLinha,contColuna])
+          break
+        if tabuleiro[contLinha][contColuna] in quadrados:
+          resultado.append([contLinha,contColuna])
+    contLinha= linha
+    contColuna= coluna   
+
+  elif cor == 'preta':
+    #MOVIMENTOS VERTICAIS E HORIZONTAIS 
+    # Movimento da peça para cima
+    if linha > 0:
+      for i in range(linha-1, 0, -1):
+        if tabuleiro[i][coluna] in pecasPretas:
+          break
+        elif tabuleiro[i][coluna] in pecasBrancas:
+          resultado.append([i, coluna])
+          break
+        elif tabuleiro[i][coluna] in quadrados:
+          resultado.append([i, coluna])
+
+    # Movimento da peça para baixo
+    if linha < 7:
+      for i in range(linha+1, 8):
+        if tabuleiro[i][coluna] in pecasPretas:
+          break
+        elif tabuleiro[i][coluna] in pecasBrancas:
+          resultado.append([i, coluna])
+          break
+        elif tabuleiro[i][coluna] in quadrados:
+          resultado.append([i, coluna])
+    
+    # Movimento da peça para o lado direito
+    if coluna < 7:
+      for i in range(coluna+1, 8):
+        if tabuleiro[linha][i] in pecasPretas:
+          break
+        elif tabuleiro[linha][i] in pecasBrancas:
+          resultado.append([linha, i])
+          break
+        elif tabuleiro[linha][i] in quadrados:
+          resultado.append([linha, i])
+
+    # Movimento da peça para o lado esquerdo
+    if coluna > 0:
+      for i in range(coluna-1, 0, -1):
+        if tabuleiro[linha][i] in pecasPretas:
+          break
+        elif tabuleiro[linha][i] in pecasBrancas:
+          resultado.append([linha, i])
+          break
+        elif tabuleiro[linha][i] in quadrados:
+          resultado.append([linha, i])
+    #MOVIMENTOS HORIZONTAIS
+    #Movimento superior direito do bispo
+    while True:
+      if contColuna>= 7 or contLinha<=0:
+        break
+      else:
+        contLinha-=1
+        contColuna+=1
+        if tabuleiro[contLinha][contColuna] in pecasPretas:
+            break
+        if tabuleiro[contLinha][contColuna] in pecasBrancas:
+          resultado.append([contLinha,contColuna])
+          break
+        if tabuleiro[contLinha][contColuna] in quadrados:
+          resultado.append([contLinha,contColuna])
+    contLinha= linha
+    contColuna= coluna
+    #movimento superior esquerdo
+    while True:
+      if contColuna <= 0 or contLinha<=0:
+        break
+      else:
+        contLinha-=1
+        contColuna-=1
+        if tabuleiro[contLinha][contColuna] in pecasPretas:
+            break
+        if tabuleiro[contLinha][contColuna] in pecasBrancas:
+          resultado.append([contLinha,contColuna])
+          break
+        if tabuleiro[contLinha][contColuna] in quadrados:
+          resultado.append([contLinha,contColuna])
+    contLinha= linha
+    contColuna= coluna      
+    #Movimento inferior direito
+    while True:
+      if contColuna >= 7 or contLinha >= 7:
+        break
+      else:
+        contLinha+=1
+        contColuna+=1
+        if tabuleiro[contLinha][contColuna] in pecasPretas:
+            break
+        if tabuleiro[contLinha][contColuna] in pecasBrancas:
+          resultado.append([contLinha,contColuna])
+          break
+        if tabuleiro[contLinha][contColuna] in quadrados:
+          resultado.append([contLinha,contColuna])
+    contLinha= linha
+    contColuna= coluna
+    #Movimento inferior esquerdo   
+    while True:
+      if contColuna < 0 or contLinha > 7:
+        break
+      else:
+        contLinha+=1
+        contColuna-=1
+        if tabuleiro[contLinha][contColuna] in pecasPretas:
+            break
+        if tabuleiro[contLinha][contColuna] in pecasBrancas:
+          resultado.append([contLinha,contColuna])
+          break
+        if tabuleiro[contLinha][contColuna] in quadrados:
+          resultado.append([contLinha,contColuna])   
+  return resultado
+   
+
 
 
 # Função para verificar se o destino da peça está dentro das possibilidades determinadas na função possibilidades()
