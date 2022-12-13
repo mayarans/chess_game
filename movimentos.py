@@ -22,6 +22,8 @@ def possibilidades(tabuleiro, origem, cor):
     return bispoPossibilidades(tabuleiro,origem,cor)
   elif peca in['b_rainha','p_rainha']:
     return rainhaPossibilidades(tabuleiro,origem,cor)
+  elif peca in ['b_rei','p_rei']:
+    return reiPossibilidades(tabuleiro,origem,cor)
 
 # Função que retorna todas as possibilidades de movimento caso a peça seja o peão
 def peaoPossibilidades(tabuleiro, origem, cor):
@@ -616,6 +618,81 @@ def rainhaPossibilidades(tabuleiro,origem,cor):
           resultado.append([contLinha,contColuna])   
   return resultado
    
+def reiPossibilidades(tabuleiro,origem,cor):
+  linha = f.linha(origem)
+  coluna = f.coluna(origem)
+  resultado = []
+  if cor == 'branca':
+  #MOVIMENTOS HORIZONTAIS E VERTICAIS
+  #Movimento para cima
+    if linha > 0:
+      if tabuleiro[linha-1][coluna] in quadrados or tabuleiro[linha-1][coluna] in pecasPretas:
+        resultado.append([linha-1,coluna])
+  #Movimento para baixo
+    if linha<7:
+      if tabuleiro[linha+1][coluna] in quadrados or tabuleiro[linha+1][coluna] in pecasPretas:
+        resultado.append([linha+1,coluna]) 
+  #Movimento para direita  
+    if coluna<7:
+      if tabuleiro[linha][coluna+1] in quadrados or tabuleiro[linha][coluna+1] in pecasPretas:
+        resultado.append([linha,coluna+1])    
+  #Movimento para esquerda
+    if coluna>0:
+     if tabuleiro[linha][coluna-1] in quadrados or tabuleiro[linha][coluna-1] in pecasPretas:
+        resultado.append([linha,coluna-1])
+  #MOVIMENTOS DIAGONAIS
+  #Movimento superior direito
+    if coluna<7 and linha>0:
+      if tabuleiro[linha-1][coluna+1] in quadrados or tabuleiro[linha-1][coluna+1] in pecasPretas:
+        resultado.append([linha-1,coluna+1])
+  #Movimento superior esquerdo
+    if coluna>0 and linha>0:
+      if tabuleiro[linha-1][coluna-1] in quadrados or tabuleiro[linha-1][coluna-1] in pecasPretas:
+        resultado.append([linha-1,coluna-1])
+  #Movimento inferior direito
+    if coluna<7 and linha<7:
+      if tabuleiro[linha+1][coluna+1] in quadrados or tabuleiro[linha+1][coluna+1] in pecasPretas:
+        resultado.append([linha+1,coluna+1])
+  #Movimento inferior esquerdo
+    if coluna>0 and linha<7:
+      if tabuleiro[linha+1][coluna-1] in quadrados or tabuleiro[linha+1][coluna-1] in pecasPretas:
+        resultado.append([linha+1,coluna-1])
+  elif cor == 'preta':
+  #MOVIMENTOS HORIZONTAIS E VERTICAIS
+  #Movimento para cima
+    if linha > 0:
+      if tabuleiro[linha-1][coluna] in quadrados or tabuleiro[linha-1][coluna] in pecasBrancas:
+        resultado.append([linha-1,coluna])
+  #Movimento para baixo
+    if linha<7:
+      if tabuleiro[linha+1][coluna] in quadrados or tabuleiro[linha+1][coluna] in pecasBrancas:
+        resultado.append([linha+1,coluna]) 
+  #Movimento para direita  
+    if coluna<7:
+      if tabuleiro[linha][coluna+1] in quadrados or tabuleiro[linha][coluna+1] in pecasBrancas:
+        resultado.append([linha,coluna+1])    
+  #Movimento para esquerda
+    if coluna>0:
+     if tabuleiro[linha][coluna-1] in quadrados or tabuleiro[linha][coluna-1] in pecasBrancas:
+        resultado.append([linha,coluna-1])
+  #MOVIMENTOS DIAGONAIS
+  #Movimento superior direito
+    if coluna<7 and linha>0:
+      if tabuleiro[linha-1][coluna+1] in quadrados or tabuleiro[linha-1][coluna+1] in pecasBrancas:
+        resultado.append([linha-1,coluna+1])
+  #Movimento superior esquerdo
+    if coluna>0 and linha>0:
+      if tabuleiro[linha-1][coluna-1] in quadrados or tabuleiro[linha-1][coluna-1] in pecasBrancas:
+        resultado.append([linha-1,coluna-1])
+  #Movimento inferior direito
+    if coluna<7 and linha<7:
+      if tabuleiro[linha+1][coluna+1] in quadrados or tabuleiro[linha+1][coluna+1] in pecasBrancas:
+        resultado.append([linha+1,coluna+1])
+  #Movimento inferior esquerdo
+    if coluna>0 and linha<7:
+      if tabuleiro[linha+1][coluna-1] in quadrados or tabuleiro[linha+1][coluna-1] in pecasBrancas:
+        resultado.append([linha+1,coluna-1])
+  return resultado
 
 
 
