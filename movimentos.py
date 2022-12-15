@@ -1,4 +1,5 @@
 import funcs_auxiliares as f
+import xequeEMate as x
 
 # Variáveis utilizadas em todas as funções de movimento
 quadrados = ['p_quadrado', 'b_quadrado']
@@ -108,10 +109,10 @@ def cavaloPossibilidades(tabuleiro, origem, cor):
           resultado.append([linha-1, coluna+2])
     # Lado esquerdo
     if coluna > 1:
-      if linha > 0:
+      if linha < 7:
         if (tabuleiro[linha+1][coluna-2] in quadrados) or (tabuleiro[linha+1][coluna-2] in pecasPretas):
           resultado.append([linha+1, coluna-2])
-      if linha < 7:
+      if linha > 0:
         if (tabuleiro[linha-1][coluna-2] in quadrados) or (tabuleiro[linha-1][coluna-2] in pecasPretas):
           resultado.append([linha-1, coluna-2])
     
@@ -143,10 +144,10 @@ def cavaloPossibilidades(tabuleiro, origem, cor):
           resultado.append([linha-1, coluna+2])
     # Lado esquerdo
     if coluna > 1:
-      if linha > 0:
+      if linha < 7:
         if (tabuleiro[linha+1][coluna-2] in quadrados) or (tabuleiro[linha+1][coluna-2] in pecasBrancas):
           resultado.append([linha+1, coluna-2])
-      if linha < 7:
+      if linha > 0:
         if (tabuleiro[linha-1][coluna-2] in quadrados) or (tabuleiro[linha-1][coluna-2] in pecasBrancas):
           resultado.append([linha-1, coluna-2])
 
@@ -627,36 +628,44 @@ def reiPossibilidades(tabuleiro,origem,cor):
   #Movimento para cima
     if linha > 0:
       if tabuleiro[linha-1][coluna] in quadrados or tabuleiro[linha-1][coluna] in pecasPretas:
-        resultado.append([linha-1,coluna])
+        if not x.xeque(tabuleiro,(linha-1),coluna,cor):
+          resultado.append([linha-1,coluna])
   #Movimento para baixo
     if linha<7:
       if tabuleiro[linha+1][coluna] in quadrados or tabuleiro[linha+1][coluna] in pecasPretas:
-        resultado.append([linha+1,coluna]) 
+        if not x.xeque(tabuleiro,linha+1,coluna,cor):
+          resultado.append([linha+1,coluna]) 
   #Movimento para direita  
     if coluna<7:
       if tabuleiro[linha][coluna+1] in quadrados or tabuleiro[linha][coluna+1] in pecasPretas:
-        resultado.append([linha,coluna+1])    
+        if not x.xeque(tabuleiro,linha,coluna+1,cor):
+          resultado.append([linha,coluna+1])    
   #Movimento para esquerda
     if coluna>0:
      if tabuleiro[linha][coluna-1] in quadrados or tabuleiro[linha][coluna-1] in pecasPretas:
+      if not x.xeque(tabuleiro,linha,coluna-1,cor):
         resultado.append([linha,coluna-1])
   #MOVIMENTOS DIAGONAIS
   #Movimento superior direito
     if coluna<7 and linha>0:
       if tabuleiro[linha-1][coluna+1] in quadrados or tabuleiro[linha-1][coluna+1] in pecasPretas:
-        resultado.append([linha-1,coluna+1])
+        if not x.xeque(tabuleiro,linha-1,coluna+1,cor):
+          resultado.append([linha-1,coluna+1])
   #Movimento superior esquerdo
     if coluna>0 and linha>0:
       if tabuleiro[linha-1][coluna-1] in quadrados or tabuleiro[linha-1][coluna-1] in pecasPretas:
-        resultado.append([linha-1,coluna-1])
+        if not x.xeque(tabuleiro,linha-1,coluna-1,cor):
+          resultado.append([linha-1,coluna-1])
   #Movimento inferior direito
     if coluna<7 and linha<7:
       if tabuleiro[linha+1][coluna+1] in quadrados or tabuleiro[linha+1][coluna+1] in pecasPretas:
-        resultado.append([linha+1,coluna+1])
+        if not x.xeque(tabuleiro,linha+1,coluna+1,cor):
+          resultado.append([linha+1,coluna+1])
   #Movimento inferior esquerdo
     if coluna>0 and linha<7:
       if tabuleiro[linha+1][coluna-1] in quadrados or tabuleiro[linha+1][coluna-1] in pecasPretas:
-        resultado.append([linha+1,coluna-1])
+        if not x.xeque(tabuleiro,linha+1,coluna-1,cor):
+          resultado.append([linha+1,coluna-1])
   elif cor == 'preta':
   #MOVIMENTOS HORIZONTAIS E VERTICAIS
   #Movimento para cima
