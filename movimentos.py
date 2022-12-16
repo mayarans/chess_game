@@ -605,7 +605,7 @@ def rainhaPossibilidades(tabuleiro,origem,cor):
     contColuna= coluna
     #Movimento inferior esquerdo   
     while True:
-      if contColuna < 0 or contLinha > 7:
+      if contColuna <= 0 or contLinha >= 7:
         break
       else:
         contLinha+=1
@@ -623,83 +623,47 @@ def reiPossibilidades(tabuleiro,origem,cor):
   linha = f.linha(origem)
   coluna = f.coluna(origem)
   resultado = []
-  if cor == 'branca':
   #MOVIMENTOS HORIZONTAIS E VERTICAIS
   #Movimento para cima
-    if linha > 0:
-      if tabuleiro[linha-1][coluna] in quadrados or tabuleiro[linha-1][coluna] in pecasPretas:
-        if not x.xeque(tabuleiro,(linha-1),coluna,cor):
-          resultado.append([linha-1,coluna])
-  #Movimento para baixo
-    if linha<7:
-      if tabuleiro[linha+1][coluna] in quadrados or tabuleiro[linha+1][coluna] in pecasPretas:
-        if not x.xeque(tabuleiro,linha+1,coluna,cor):
-          resultado.append([linha+1,coluna]) 
-  #Movimento para direita  
-    if coluna<7:
-      if tabuleiro[linha][coluna+1] in quadrados or tabuleiro[linha][coluna+1] in pecasPretas:
-        if not x.xeque(tabuleiro,linha,coluna+1,cor):
-          resultado.append([linha,coluna+1])    
-  #Movimento para esquerda
-    if coluna>0:
-     if tabuleiro[linha][coluna-1] in quadrados or tabuleiro[linha][coluna-1] in pecasPretas:
+  if linha > 0:
+    if tabuleiro[linha-1][coluna] in quadrados or tabuleiro[linha-1][coluna] in f.listaDePecas(f.inverteCor(cor)):
+      if not x.xeque(tabuleiro,(linha-1),coluna,cor):
+        resultado.append([linha-1,coluna])
+#Movimento para baixo
+  if linha<7:
+    if tabuleiro[linha+1][coluna] in quadrados or tabuleiro[linha+1][coluna] in f.listaDePecas(f.inverteCor(cor)):
+      if not x.xeque(tabuleiro,linha+1,coluna,cor):
+        resultado.append([linha+1,coluna]) 
+#Movimento para direita  
+  if coluna<7:
+    if tabuleiro[linha][coluna+1] in quadrados or tabuleiro[linha][coluna+1] in f.listaDePecas(f.inverteCor(cor)):
+      if not x.xeque(tabuleiro,linha,coluna+1,cor):
+        resultado.append([linha,coluna+1])    
+#Movimento para esquerda
+  if coluna>0:
+    if tabuleiro[linha][coluna-1] in quadrados or tabuleiro[linha][coluna-1] in f.listaDePecas(f.inverteCor(cor)):
       if not x.xeque(tabuleiro,linha,coluna-1,cor):
         resultado.append([linha,coluna-1])
-  #MOVIMENTOS DIAGONAIS
-  #Movimento superior direito
-    if coluna<7 and linha>0:
-      if tabuleiro[linha-1][coluna+1] in quadrados or tabuleiro[linha-1][coluna+1] in pecasPretas:
-        if not x.xeque(tabuleiro,linha-1,coluna+1,cor):
-          resultado.append([linha-1,coluna+1])
-  #Movimento superior esquerdo
-    if coluna>0 and linha>0:
-      if tabuleiro[linha-1][coluna-1] in quadrados or tabuleiro[linha-1][coluna-1] in pecasPretas:
-        if not x.xeque(tabuleiro,linha-1,coluna-1,cor):
-          resultado.append([linha-1,coluna-1])
-  #Movimento inferior direito
-    if coluna<7 and linha<7:
-      if tabuleiro[linha+1][coluna+1] in quadrados or tabuleiro[linha+1][coluna+1] in pecasPretas:
-        if not x.xeque(tabuleiro,linha+1,coluna+1,cor):
-          resultado.append([linha+1,coluna+1])
-  #Movimento inferior esquerdo
-    if coluna>0 and linha<7:
-      if tabuleiro[linha+1][coluna-1] in quadrados or tabuleiro[linha+1][coluna-1] in pecasPretas:
-        if not x.xeque(tabuleiro,linha+1,coluna-1,cor):
-          resultado.append([linha+1,coluna-1])
-  elif cor == 'preta':
-  #MOVIMENTOS HORIZONTAIS E VERTICAIS
-  #Movimento para cima
-    if linha > 0:
-      if tabuleiro[linha-1][coluna] in quadrados or tabuleiro[linha-1][coluna] in pecasBrancas:
-        resultado.append([linha-1,coluna])
-  #Movimento para baixo
-    if linha<7:
-      if tabuleiro[linha+1][coluna] in quadrados or tabuleiro[linha+1][coluna] in pecasBrancas:
-        resultado.append([linha+1,coluna]) 
-  #Movimento para direita  
-    if coluna<7:
-      if tabuleiro[linha][coluna+1] in quadrados or tabuleiro[linha][coluna+1] in pecasBrancas:
-        resultado.append([linha,coluna+1])    
-  #Movimento para esquerda
-    if coluna>0:
-     if tabuleiro[linha][coluna-1] in quadrados or tabuleiro[linha][coluna-1] in pecasBrancas:
-        resultado.append([linha,coluna-1])
-  #MOVIMENTOS DIAGONAIS
-  #Movimento superior direito
-    if coluna<7 and linha>0:
-      if tabuleiro[linha-1][coluna+1] in quadrados or tabuleiro[linha-1][coluna+1] in pecasBrancas:
+#MOVIMENTOS DIAGONAIS
+#Movimento superior direito
+  if coluna<7 and linha>0:
+    if tabuleiro[linha-1][coluna+1] in quadrados or tabuleiro[linha-1][coluna+1] in f.listaDePecas(f.inverteCor(cor)):
+      if not x.xeque(tabuleiro,linha-1,coluna+1,cor):
         resultado.append([linha-1,coluna+1])
-  #Movimento superior esquerdo
-    if coluna>0 and linha>0:
-      if tabuleiro[linha-1][coluna-1] in quadrados or tabuleiro[linha-1][coluna-1] in pecasBrancas:
+#Movimento superior esquerdo
+  if coluna>0 and linha>0:
+    if tabuleiro[linha-1][coluna-1] in quadrados or tabuleiro[linha-1][coluna-1] in f.listaDePecas(f.inverteCor(cor)):
+      if not x.xeque(tabuleiro,linha-1,coluna-1,cor):
         resultado.append([linha-1,coluna-1])
-  #Movimento inferior direito
-    if coluna<7 and linha<7:
-      if tabuleiro[linha+1][coluna+1] in quadrados or tabuleiro[linha+1][coluna+1] in pecasBrancas:
+#Movimento inferior direito
+  if coluna<7 and linha<7:
+    if tabuleiro[linha+1][coluna+1] in quadrados or tabuleiro[linha+1][coluna+1] in f.listaDePecas(f.inverteCor(cor)):
+      if not x.xeque(tabuleiro,linha+1,coluna+1,cor):
         resultado.append([linha+1,coluna+1])
-  #Movimento inferior esquerdo
-    if coluna>0 and linha<7:
-      if tabuleiro[linha+1][coluna-1] in quadrados or tabuleiro[linha+1][coluna-1] in pecasBrancas:
+#Movimento inferior esquerdo
+  if coluna>0 and linha<7:
+    if tabuleiro[linha+1][coluna-1] in quadrados or tabuleiro[linha+1][coluna-1] in f.listaDePecas(f.inverteCor(cor)):
+      if not x.xeque(tabuleiro,linha+1,coluna-1,cor):
         resultado.append([linha+1,coluna-1])
   return resultado
 

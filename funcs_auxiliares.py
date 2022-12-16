@@ -57,3 +57,66 @@ def loading():
     sys.stdout.flush()
   print()
 
+#Funções para dinamizar o uso da cor -  CorEPeca() retorna o nome de uma peça da cor atual - inverteCor() inverte a cor atual - listaDePecas() retorna a lista de todas as pecas da cor atual
+def corEpeca(cor,nome):
+  if cor=='preta':
+    return 'p_'+nome
+  elif cor=='branca':
+    return 'b_'+nome
+
+def inverteCor(cor):
+  if cor=='branca':
+    cor='preta'
+  else:
+    cor='branca'
+  return cor
+
+def listaDePecas(cor):
+  if cor=='preta':
+    return ['p_torre', 'p_cavalo', 'p_bispo', 'p_rainha', 'p_rei', 'p_bispo', 'p_cavalo', 'p_torre', 'p_peao']
+  elif cor=='branca':
+    return ['b_torre', 'b_cavalo', 'b_bispo', 'b_rainha', 'b_rei', 'b_bispo', 'b_cavalo', 'b_torre', 'b_peao']
+
+#Funções que verificam se peças ao redor ameaçam ou não uma determinada posição
+def possibilidadesL(linha=0, coluna=1):
+  valores = []
+  limites = range(8)
+  for i in range(-1,2,2):
+    for j in range(-2,3,4):
+      if linha+i in limites and coluna+j in limites:
+        valores.append([linha+i, coluna+j])
+      if linha+j in limites and coluna+i in limites:
+        valores.append([linha+j, coluna+i]) 
+  return valores   
+
+def verificacaoHorizontalEVertical(tabuleiro, linha, coluna, proximaLinha, proximaColuna, limiteLinha, limiteColuna,cor):
+  while True:
+    coluna+=proximaColuna
+    linha+=proximaLinha
+
+    if coluna == limiteColuna or  linha == limiteLinha:
+      break
+    peca = tabuleiro[linha][coluna]
+    if peca in listaDePecas(inverteCor(cor)) and peca!= corEpeca(cor,'rei'):
+      return False
+    if peca in listaDePecas(inverteCor(cor)) and peca not in [corEpeca(inverteCor(cor),'torre'),corEpeca(inverteCor(cor),'rainha')]:
+      return False
+    if peca in listaDePecas(inverteCor(cor)) and peca in [corEpeca(inverteCor(cor),'torre'),corEpeca(inverteCor(cor),'rainha')]:
+      return True
+    
+
+def verificacaoDiagonal(tabuleiro, contLinha, contColuna, proximaLinha, proximaColuna, limiteLinha, limiteColuna,cor):
+  while True:
+    contLinha += proximaLinha
+    contColuna += proximaColuna
+
+    if contColuna == limiteColuna or contLinha == limiteLinha:
+        break
+    peca = tabuleiro[contLinha][contColuna]
+    if (peca in listaDePecas(cor) and peca!= corEpeca(cor,'rei')):
+        return False
+    if (peca in listaDePecas(inverteCor(cor)) and peca not in [corEpeca(inverteCor(cor),'bispo'),corEpeca(inverteCor(cor),'rainha')]):
+       return False
+    if peca in listaDePecas(inverteCor(cor)) and peca in [corEpeca(inverteCor(cor),'bispo'), corEpeca(inverteCor(cor),'rainha')]:
+        return True
+    
