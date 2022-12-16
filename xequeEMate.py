@@ -1,34 +1,56 @@
 import funcs_auxiliares as f
 
-
 # Variáveis utilizadas em todas as funções de movimento
 quadrados = ['p_quadrado', 'b_quadrado']
-pecasPretas = ['p_torre', 'p_cavalo', 'p_bispo', 'p_rainha', 'p_rei', 'p_bispo', 'p_cavalo', 'p_torre', 'p_peao']
-pecasBrancas = ['b_torre', 'b_cavalo', 'b_bispo', 'b_rainha', 'b_rei', 'b_bispo', 'b_cavalo', 'b_torre', 'b_peao']
+
+def xeque(tabuleiro,linha,coluna,cor):
+
+    #Verificação se há um peão na diagonal imediata antes de verificar as demais casas
+    if coluna<7:
+        if tabuleiro[linha - 1][coluna + 1] == 'p_peao':
+            return True
+    if coluna>0:
+        if tabuleiro[linha -1][coluna - 1] == 'p_peao':
+            return True
+    
+    if f.verificacaoDiagonal(tabuleiro, linha, coluna, -1, 1, -1, 8,cor):
+        return True #Casas superiores direita 
+  
+    if f.verificacaoDiagonal(tabuleiro, linha, coluna, -1, -1, -1,-1,cor):
+        return True   #Casas superiores esquerda
+    
+    if f.verificacaoDiagonal(tabuleiro, linha, coluna, +1, +1, 8,8,cor):
+        return True #Casas inferior direita 
+    
+    if f.verificacaoDiagonal(tabuleiro, linha, coluna, +1, -1, 8,-1,cor):
+        return True #Casas inferior esquerda 
+    
+    #VERIFICAÇÃO DAS CASAS EM "L" (Movimento do cavalo)
+    for listas in f.possibilidadesL(linha,coluna):
+        i  = listas[0]
+        j = listas[1]
+        if tabuleiro[i][j]==f.corEpeca(f.inverteCor(cor),'cavalo'):
+            return True
+
+    #VERIFICAÇÃO DAS CASAS HORIZINTAIS (Movimento da torre e da rainha)
+    if f.verificacaoHorizontalEVertical(tabuleiro,linha,coluna,-1,0,-1,8,cor):
+        return True #cima
+    if f.verificacaoHorizontalEVertical(tabuleiro,linha,coluna,+1,0,8,8,cor):
+        return True #baixo
+    if f.verificacaoHorizontalEVertical(tabuleiro,linha,coluna,0,+1,8,8,cor):
+        return True #direita
+    if f.verificacaoHorizontalEVertical(tabuleiro,linha,coluna,0,-1,8,-1,cor):
+        return True #esquerda
+   
+
+    return False
 
 
-def xeque(tabuleiro,posicao,cor):
-    linha = f.linha(posicao)
-    coluna = f.coluna(posicao)
-    resultado = False
-    contLinha= linha
-    contColuna= coluna
-    if cor == 'branca':
-    #CASAS DIAGONAIS
-    #Casas superiores direita
-        while True:
-            if contColuna>= 7 or contLinha<=0:
-                break
-            else:
-                if tabuleiro[contLinha][contColuna] in pecasBrancas and not 'b_rei':
-                    break
-                if tabuleiro[contLinha][contColuna] in pecasPretas and (tabuleiro[contLinha][contColuna]=='p_bispo' or tabuleiro[contLinha][contColuna] == 'p_rainha'):
-                    resultado=True
-                
-                contLinha-=1
-                contColuna+=1
-        contLinha= linha
-        contColuna= coluna
-        
-    return resultado
-
+def organizarPossibilidades(tabuleiro,possibilidades,cor):
+    movimentos = []
+    for posicao in possibilidades:
+        linha = posicao[0]
+        coluna=posicao[1] 
+        if not xeque(tabuleiro,linha,coluna,cor):
+            movimentos.append([linha,coluna])
+    return movimentos

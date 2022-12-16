@@ -4,7 +4,7 @@ import tabuleiro as t
 import estilos as e
 
 # Chamando a função de carregamento do jogo
-f.loading()
+#f.loading()
 
 # Print do nome do jogo e de suas instruções
 print('''
