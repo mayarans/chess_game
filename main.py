@@ -43,7 +43,7 @@ while True:
   while True:
     # Recebendo a origem da jogada do usuário
     print('%sJogador da vez: %s%s' %(e.estilos["CIANO_NEGRITO"],f.jogadorDaVez(cor,jogador1,jogador2).upper(),e.estilos["RESET"]))
-    origemJogada = input('Origem (ex.: e5): ')
+    origemJogada = input('Origem (ex.: e5): ').lower()
     # Chamando a função para verificar se a origem é válida
     verificacao = f.verificarOrigemValida(tabuleiro, origemJogada, cor)
     if verificacao == 'ok':
@@ -61,7 +61,7 @@ while True:
   t.mostrarTabuleiro(tabuleiro, letras)
   while True:
     # Recebendo o destino da jogada do usuário
-    destinoJogada = input('Destino (ex.: e5): ')
+    destinoJogada = input('Destino (ex.: e5): ').lower()
     # Chamando a função para verificar se o destino é válido
     verificacao = m.verificarDestinoValido(destinoJogada, possibilidades)
     if verificacao == True:
