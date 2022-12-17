@@ -2,6 +2,7 @@ import movimentos as m
 import funcs_auxiliares as f
 import tabuleiro as t
 import estilos as e
+import xequeEMate as x
 
 # Chamando a função de carregamento do jogo
 #f.loading()
@@ -41,7 +42,7 @@ while True:
     break
   while True:
     # Recebendo a origem da jogada do usuário
-    f.jogadorDaVez(cor, jogador1, jogador2)
+    print('%sJogador da vez: %s%s' %(e.estilos["CIANO_NEGRITO"],f.jogadorDaVez(cor,jogador1,jogador2).upper(),e.estilos["RESET"]))
     origemJogada = input('Origem (ex.: e5): ')
     # Chamando a função para verificar se a origem é válida
     verificacao = f.verificarOrigemValida(tabuleiro, origemJogada, cor)
@@ -70,8 +71,17 @@ while True:
       continue
   # Chamando a função que define o movimento a ser feito
   m.realizarMovimento(tabuleiro, origemJogada, destinoJogada)
+  
   # Alternando o jogador
   if cor == 'branca':
     cor = 'preta'
   else:
     cor = 'branca'
+  if x.xequeMate(tabuleiro,cor):
+    t.mostrarTabuleiro(tabuleiro, letras)
+    print('%sXEQUE-MATE \nO JOGADOR %s GANHOU%s' %(e.estilos["MAGENTA_NEGRITO"],f.jogadorDaVez(cor, jogador1, jogador2),e.estilos["RESET"]))
+    break
+    
+    
+  
+ 
