@@ -4,8 +4,11 @@ import tabuleiro as t
 import estilos as e
 import xeque as x
 
+# Chamada de função para limpar a tela
+f.limparTela()
+
 # Chamando a função de carregamento do jogo
-#f.loading()
+f.carregamentoJogo()
 
 # Print do nome do jogo e de suas instruções
 print('''
@@ -33,15 +36,16 @@ letras = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
 jogador1 = input('Nome do jogador 1 (peças brancas): ')
 jogador2 = input('Nome do jogador 2 (peças pretas): ')
 
-# Condição de parada do jogo
 cor = 'branca'
 while True:
+  # Chamada de função para limpar a tela
+  f.limparTela()
   escolherOutraOrigem = False
   # Chamada de função para print do tabuleiro
   t.mostrarTabuleiro(tabuleiro, letras)
   while True:
     # Recebendo a origem da jogada do usuário
-    print('%sJogador da vez: %s%s' %(e.estilos["CIANO_NEGRITO"],f.jogadorDaVez(cor,jogador1,jogador2).upper(),e.estilos["REDEFINIR"]))
+    print(f'{e.estilos["CIANO_NEGRITO"]}Jogador da vez: {f.jogadorDaVez(cor,jogador1,jogador2).upper()}{e.estilos["REDEFINIR"]}')
     origemJogada = input('Origem (ex.: e5): ').lower()
     # Chamando a função para verificar se a origem é válida
     verificacao = f.verificarOrigemValida(tabuleiro, origemJogada, cor)
@@ -56,7 +60,7 @@ while True:
     print(verificacao)
 
   # Chamada de função para print do tabuleiro
-  t.mostrarTabuleiro(tabuleiro, letras,possibilidades)
+  t.mostrarTabuleiro(tabuleiro, letras, possibilidades)
   while True:
     # Recebendo o destino da jogada do usuário
     destinoJogada = input('Destino (ex.: e5): ').lower()
@@ -82,9 +86,10 @@ while True:
     cor = 'preta'
   else:
     cor = 'branca'
-  if x.xequeMate(tabuleiro,cor):
+  # Chamada de função para o xeque-mate e término do loop
+  if x.xequeMate(tabuleiro, cor):
     t.mostrarTabuleiro(tabuleiro, letras)
-    print(f'{e.estilos["VERMELHO"]}XEQUE-MATE!{e.estilos["RESET"]}\n{e.estilos["VERDE"]}{f.jogadorDaVez(jogador1, jogador2)} VENCEU A PARTIDA{e.estilos["RESET"]}')
+    print(f'{e.estilos["VERMELHO"]}XEQUE-MATE!{e.estilos["REDEFINIR"]}\n{e.estilos["VERDE"]}{f.jogadorDaVez(jogador1, jogador2)} VENCEU A PARTIDA{e.estilos["REDEFINIR"]}')
     break
     
     
