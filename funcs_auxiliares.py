@@ -1,5 +1,7 @@
 import time, sys
 import estilos as e
+import movimentos as m
+import xequeEMate as x
 
 # Letras que representam as colunas da matriz tabuleiro
 letras = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
@@ -27,6 +29,7 @@ def verificarOrigemValida(tabuleiro, origem, cor):
     # Lista de posicão de linha e coluna da peça
     lista = [linha(origem), coluna(origem)]
     # Verificando se a posição de origem contém uma peça branca
+   
     if cor == 'branca' and tabuleiro[lista[0]][lista[1]] not in quadrados:
       if tabuleiro[lista[0]][lista[1]] not in pecasPretas:
         resposta = 'ok'
@@ -46,11 +49,18 @@ def verificarOrigemValida(tabuleiro, origem, cor):
   return resposta
 
 # Função que define o jogador na rodada atual
-def jogadorDaVez(cor, jogador1, jogador2):
-  if cor == 'branca':
-    print(f'{e.estilos["CIANO_NEGRITO"]}Jogador da vez: {jogador1.upper()}{e.estilos["RESET"]}')
-  else: # Cor preta
-    print(f'{e.estilos["CIANO_NEGRITO"]}Jogador da vez: {jogador2.upper()}{e.estilos["RESET"]}')
+
+def jogadorDaVez(cor,jogador1,jogador2):
+  if cor=='branca':
+    return jogador1
+  else:
+    return jogador2
+    
+# def jogadorDaVez(cor, jogador1, jogador2):
+#   if cor == 'branca':
+#     return f'{e.estilos["CIANO_NEGRITO"]}Jogador da vez: {jogador1.upper()}{e.estilos["RESET"]}'
+#   else: # Cor preta
+#     return f'{e.estilos["CIANO_NEGRITO"]}Jogador da vez: {jogador2.upper()}{e.estilos["RESET"]}'
 
 # Função auxiliar para simular o carregamento do jogo de xadrez
 def loading():
@@ -119,9 +129,42 @@ def verificacaoDiagonal(tabuleiro, contLinha, contColuna, proximaLinha, proximaC
     if contColuna == limiteColuna or contLinha == limiteLinha:
         break
     peca = tabuleiro[contLinha][contColuna]
-    if (peca in listaDePecas(cor) and peca!= corEpeca(cor,'rei')):
+    if (peca in listaDePecas(cor) and peca != corEpeca(cor,'rei')):
         return False
     if (peca in listaDePecas(inverteCor(cor)) and peca not in [corEpeca(inverteCor(cor),'bispo'),corEpeca(inverteCor(cor),'rainha')]):
        return False
-    if peca in listaDePecas(inverteCor(cor)) and peca in [corEpeca(inverteCor(cor),'bispo'), corEpeca(inverteCor(cor),'rainha')]:
+    if peca in listaDePecas(inverteCor(cor)) and peca in [corEpeca(inverteCor(cor),'bispo'),corEpeca(inverteCor(cor),'rainha')]:  
         return True
+
+
+def localizarRei(tabuleiro, cor):
+  for i in range(8):
+    for j in range(8):
+      if tabuleiro[i][j] == corEpeca(cor,'rei'):
+        return [i, j]
+
+def valorOrigem (coluna,linha):
+  return '%s%s' %(letras[coluna],linha+1)
+
+
+def chequeReiparaRei (tabuleiro,cor):
+    possibilideReiAtual=m.reiPossibilidades(tabuleiro,valorOrigem(localizarRei(tabuleiro, cor)[1],localizarRei(tabuleiro, cor)[0]),cor)
+    possibilideReiInimgo= m.reiPossibilidades(tabuleiro,valorOrigem(localizarRei(tabuleiro, inverteCor(cor))[1],localizarRei(tabuleiro, inverteCor(cor))[0]),inverteCor(cor))
+    interseccao = []
+    for possibilidades_a in possibilideReiAtual:
+      for possibilidades_b in possibilideReiInimgo:
+        if possibilidades_a == possibilidades_b:
+          interseccao.append(possibilidades_a)
+    return interseccao
+
+
+
+
+    
+
+
+
+
+
+
+
