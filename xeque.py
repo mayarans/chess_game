@@ -54,7 +54,8 @@ def xeque(tabuleiro,linha,coluna,cor):
     return False
 
 def xequeMate(tabuleiro,cor):
-    if (xeque(tabuleiro,f.localizarRei(tabuleiro, cor)[0],f.localizarRei(tabuleiro, cor)[1],cor)) and (m.reiPossibilidades(tabuleiro,f.valorOrigem(f.localizarRei(tabuleiro, cor)[1],f.localizarRei(tabuleiro, cor)[0]),cor))==[]:
+    posicaoRei=f.localizarRei(tabuleiro, cor)
+    if (xeque(tabuleiro,posicaoRei[0],posicaoRei[1],cor)) and (m.reiPossibilidades(tabuleiro,f.valorOrigem(posicaoRei[1],posicaoRei[0]),cor))==[]:
         return True
     else:
         return False
