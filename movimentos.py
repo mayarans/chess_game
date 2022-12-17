@@ -1,5 +1,5 @@
 import funcs_auxiliares as f
-import xequeEMate as x
+import xeque as x
 
 # Variáveis utilizadas em todas as funções de movimento
 aliados = {"preta": ['p_torre', 'p_cavalo', 'p_bispo', 'p_rainha', 'p_rei', 'p_bispo', 'p_cavalo', 'p_torre', 'p_peao'], "branca": ['b_torre', 'b_cavalo', 'b_bispo', 'b_rainha', 'b_rei', 'b_bispo', 'b_cavalo', 'b_torre', 'b_peao']}
@@ -141,6 +141,18 @@ def auxiliarReiPossibilidades(origem):
   
   return limites(resultado)
 
+#Função que retorna a intersecção do movimento dos dois reis
+def xequeReiparaRei (tabuleiro,possibilidades,cor):
+    posicaoReiInimigo = f.localizarRei(tabuleiro,f.inverteCor(cor))
+    possibilidadeReiAtual=possibilidades
+    possibilidadeReiInimgo= auxiliarReiPossibilidades(f.valorOrigem(posicaoReiInimigo[1],posicaoReiInimigo[0]))
+    interseccao = []
+    #Procurando a intersecção de movimento entre os dois reis
+    for possibilidades_a in possibilidadeReiAtual:
+      for possibilidades_b in possibilidadeReiInimgo:
+        if possibilidades_a == possibilidades_b:
+          interseccao.append(possibilidades_a)
+    return interseccao
 
 # Função que retorna todas as possibilidades de movimento para um rei
 def reiPossibilidades(tabuleiro, origem, cor):
@@ -149,9 +161,11 @@ def reiPossibilidades(tabuleiro, origem, cor):
 
   # Atualizando a lista dentro dos limites do tabuleiro e verificando as posições possíveis para movimento
   movimentosPossiveis = []
-  for i in auxiliarReiPossibilidades(origem):
+  possibilidades = auxiliarReiPossibilidades(origem)
+  #Verficando se as possibilidades de movimento do rei atual
+  for i in possibilidades:
     posicaoAtual = tabuleiro[i[0]][i[1]]
-    if posicaoAtual not in pecasAliadas and not x.xeque(tabuleiro, i[0], i[1], cor):
+    if posicaoAtual not in pecasAliadas and not x.xeque(tabuleiro, i[0], i[1], cor) and i not in xequeReiparaRei(tabuleiro,possibilidades,cor):
       movimentosPossiveis.append([i[0], i[1]])
   
   return movimentosPossiveis
@@ -162,6 +176,12 @@ def verificarDestinoValido(destino, possibilidades):
     posicaoDestino = [f.linha(destino), f.coluna(destino)]
     return posicaoDestino in possibilidades
 
+def reiForaDeXeque(copiaTabuleiro,cor,origem,destino):
+  realizarMovimento(copiaTabuleiro,origem,destino)
+  posicaoReiAliado =f.localizarRei(copiaTabuleiro, cor)
+  foraDeXeque=  not x.xeque(copiaTabuleiro,posicaoReiAliado[0],posicaoReiAliado[1],cor)
+  realizarMovimento(copiaTabuleiro,destino,origem)
+  return foraDeXeque
 
 # Função para realizar o movimento da peça e substituir sua posição de origem pelo quadrado correspondente
 def realizarMovimento(tabuleiro, origem, destino):

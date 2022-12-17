@@ -1,14 +1,14 @@
 import time, sys
 import estilos as e
 import movimentos as m
-import xequeEMate as x
+import xeque as x
 
 # Letras que representam as colunas da matriz tabuleiro
 letras = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
 
 # Função que retorna linha em que está localizada a peça
 def linha(posicao):
-  if len(posicao) > 1 and posicao[1:] in range(1, 9):
+  if len(posicao) > 1 and int(posicao[1:]) in range(1, 9):
     return int(posicao[1:])-1
 
 # Função que retorna coluna em que está localizada a peça
@@ -30,17 +30,17 @@ def verificarOrigemValida(tabuleiro, origem, cor):
       if tabuleiro[lista[0]][lista[1]] not in pecasPretas:
         resposta = 'ok'
       else:
-        resposta = f'\n{e.estilos["VERMELHO"]}Você está tentando mover uma peça preta. Aguarde sua vez!{e.estilos["RESET"]}\n'
+        resposta = f'\n{e.estilos["VERMELHO"]}Você está tentando mover uma peça preta. Aguarde sua vez!{e.estilos["REDEFINIR"]}\n'
     # Verificando se a posição de origem contém uma peça preta
     elif cor == 'preta' and tabuleiro[lista[0]][lista[1]] not in quadrados:
       if tabuleiro[lista[0]][lista[1]] not in pecasBrancas:
         resposta = 'ok'
       else:
-        resposta = f'\n{e.estilos["VERMELHO"]}Você está tentando mover uma peça branca. Aguarde sua vez!{e.estilos["RESET"]}\n'
+        resposta = f'\n{e.estilos["VERMELHO"]}Você está tentando mover uma peça branca. Aguarde sua vez!{e.estilos["REDEFINIR"]}\n'
     else:
-      resposta = f'\n{e.estilos["VERMELHO"]}Não há peças nesta posição. Indique uma posição válida!{e.estilos["RESET"]}\n'
+      resposta = f'\n{e.estilos["VERMELHO"]}Não há peças nesta posição. Indique uma posição válida!{e.estilos["REDEFINIR"]}\n'
   except (ValueError, IndexError):
-    resposta = f'\n{e.estilos["VERMELHO"]}Esta posição não está dentro dos limites do tabuleiro. Tente novamente!{e.estilos["RESET"]}\n'
+    resposta = f'\n{e.estilos["VERMELHO"]}Esta posição não está dentro dos limites do tabuleiro. Tente novamente!{e.estilos["REDEFINIR"]}\n'
 
   return resposta
 
@@ -52,11 +52,6 @@ def jogadorDaVez(cor,jogador1,jogador2):
   else:
     return jogador2
     
-# def jogadorDaVez(cor, jogador1, jogador2):
-#   if cor == 'branca':
-#     return f'{e.estilos["CIANO_NEGRITO"]}Jogador da vez: {jogador1.upper()}{e.estilos["RESET"]}'
-#   else: # Cor preta
-#     return f'{e.estilos["CIANO_NEGRITO"]}Jogador da vez: {jogador2.upper()}{e.estilos["RESET"]}'
 
 # Função auxiliar para simular o carregamento do jogo de xadrez
 def loading():
@@ -143,15 +138,7 @@ def valorOrigem (coluna,linha):
   return '%s%s' %(letras[coluna],linha+1)
 
 
-def chequeReiparaRei (tabuleiro,cor):
-    possibilideReiAtual=m.reiPossibilidades(tabuleiro,valorOrigem(localizarRei(tabuleiro, cor)[1],localizarRei(tabuleiro, cor)[0]),cor)
-    possibilideReiInimgo= m.reiPossibilidades(tabuleiro,valorOrigem(localizarRei(tabuleiro, inverteCor(cor))[1],localizarRei(tabuleiro, inverteCor(cor))[0]),inverteCor(cor))
-    interseccao = []
-    for possibilidades_a in possibilideReiAtual:
-      for possibilidades_b in possibilideReiInimgo:
-        if possibilidades_a == possibilidades_b:
-          interseccao.append(possibilidades_a)
-    return interseccao
+
 
 
 
