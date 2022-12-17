@@ -43,9 +43,12 @@ def peaoPossibilidades(tabuleiro, origem, cor):
     resultado.append(lista)
   # Movimento do peão para as diagonais (comer uma peça)
   for i in range(-1, 2, 2):
-    if (tabuleiro[linha + (1 * multiplicador)][coluna + i] in adversarios[cor]):
-      lista = [linha + (1 * multiplicador), coluna + i]
-      resultado.append(lista)
+    proximaLinha = linha + (1 * multiplicador)
+    proximaColuna = coluna + i
+    if proximaLinha in range(8) and proximaColuna in range(8):
+      if (tabuleiro[proximaLinha][proximaColuna] in adversarios[cor]):
+        lista = [proximaLinha, proximaColuna]
+        resultado.append(lista)
   
   return limites(resultado)
 
