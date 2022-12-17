@@ -8,17 +8,13 @@ letras = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
 
 # Função que retorna linha em que está localizada a peça
 def linha(posicao):
-  try:
+  if len(posicao) > 1 and posicao[1:] in range(1, 9):
     return int(posicao[1:])-1
-  except (ValueError):
-    return 50
 
 # Função que retorna coluna em que está localizada a peça
 def coluna(posicao):
-  try:
+  if posicao[0] in letras:
     return letras.index(posicao[0])
-  except (ValueError):
-    return 50
 
 # Função que verifica e retorna se a posição de origem é uma peça válida
 def verificarOrigemValida(tabuleiro, origem, cor):
