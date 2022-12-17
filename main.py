@@ -89,7 +89,7 @@ while True:
   # Chamada de função para o xeque-mate e término do loop
   if x.xequeMate(tabuleiro, cor):
     t.mostrarTabuleiro(tabuleiro, letras)
-    print(f'{e.estilos["VERMELHO"]}XEQUE-MATE!{e.estilos["REDEFINIR"]}\n{e.estilos["VERDE"]}{f.jogadorDaVez(jogador1, jogador2)} VENCEU A PARTIDA{e.estilos["REDEFINIR"]}')
+    print(f'{e.estilos["VERMELHO"]}XEQUE-MATE!{e.estilos["REDEFINIR"]}\n{e.estilos["VERDE"]}{f.jogadorDaVez(cor, jogador1, jogador2).upper()} VENCEU A PARTIDA{e.estilos["REDEFINIR"]}')
     break
     
     
