@@ -1,17 +1,25 @@
 import funcs_auxiliares as f
-
+import movimentos as m
 # Variáveis utilizadas em todas as funções de movimento
 quadrados = ['p_quadrado', 'b_quadrado']
 
 def xeque(tabuleiro,linha,coluna,cor):
 
     #Verificação se há um peão na diagonal imediata antes de verificar as demais casas
-    if coluna<7:
-        if tabuleiro[linha - 1][coluna + 1] == 'p_peao':
-            return True
-    if coluna>0:
-        if tabuleiro[linha -1][coluna - 1] == 'p_peao':
-            return True
+    if cor == 'branca':
+        if coluna<7:
+            if tabuleiro[linha - 1][coluna + 1] == f.corEpeca(f.inverteCor(cor),'peao'):
+                return True
+        if coluna>0:
+            if tabuleiro[linha -1][coluna - 1] == f.corEpeca(f.inverteCor(cor),'peao'):
+                return True
+    else:
+        if coluna<7:
+            if tabuleiro[linha + 1][coluna + 1] == f.corEpeca(f.inverteCor(cor),'peao'):
+                return True
+        if coluna>0:
+            if tabuleiro[linha + 1][coluna - 1] == f.corEpeca(f.inverteCor(cor),'peao'):
+                return True
     
     if f.verificacaoDiagonal(tabuleiro, linha, coluna, -1, 1, -1, 8,cor):
         return True #Casas superiores direita 
@@ -45,12 +53,10 @@ def xeque(tabuleiro,linha,coluna,cor):
 
     return False
 
+def xequeMate(tabuleiro,cor):
+    if (xeque(tabuleiro,f.localizarRei(tabuleiro, cor)[0],f.localizarRei(tabuleiro, cor)[1],cor)) and (m.reiPossibilidades(tabuleiro,f.valorOrigem(f.localizarRei(tabuleiro, cor)[1],f.localizarRei(tabuleiro, cor)[0]),cor))==[]:
+        return True
+    else:
+        return False
 
-def organizarPossibilidades(tabuleiro,possibilidades,cor):
-    movimentos = []
-    for posicao in possibilidades:
-        linha = posicao[0]
-        coluna=posicao[1] 
-        if not xeque(tabuleiro,linha,coluna,cor):
-            movimentos.append([linha,coluna])
-    return movimentos
+
