@@ -16,6 +16,7 @@ pecas = {
     'b_bispo': u'\u2657',
     'b_rei': u'\u2654',
     'b_rainha': u'\u2655'
+
 }
 
 # Função para montagem do tabuleiro de xadrez
@@ -39,7 +40,7 @@ def montarTabuleiro():
   return tabuleiro
 
 # Função para printar o tabuleiro no terminal
-def mostrarTabuleiro(tabuleiro, letras):
+def mostrarTabuleiro(tabuleiro, letras,possibilidades=[]):
   print()
   # Colunas
   print('  ','  '.join(letras))
@@ -48,9 +49,10 @@ def mostrarTabuleiro(tabuleiro, letras):
     print(i+1, end=" ")
     for j in range(len(tabuleiro[i])):
       # Adicionando estilos para o tabuleiro
-      print(estilos.estilos['BACKGROUND_WHITE'] + estilos.estilos['BLACK'], end='')
-      print('', pecas[tabuleiro[i][j]], end=" ")
-      print(estilos.estilos['RESET'] + estilos.estilos['RESET'], end='')
+      print(estilos.estilos['FUNDO_VERDE' if [i,j] in possibilidades else 'FUNDO_BRANCO'], end='')
+      print(estilos.estilos['PRETO'], end ='')
+      print('',pecas[tabuleiro[i][j]], end=" ")
+      print(estilos.estilos['REDEFINIR'] + estilos.estilos['REDEFINIR'], end='')
     print()
   print()
 
