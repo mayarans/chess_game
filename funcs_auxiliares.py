@@ -1,7 +1,27 @@
 import time, sys
 import estilos as e
+from os import system, name
 import movimentos as m
-import xeque as x
+
+# Função utilizada para limpar a tela a cada jogada
+def limparTela():
+    # Para windows
+    if name == 'nt':
+      system('cls')
+    # Para mac and linux(here, os.name is 'posix')
+    else:
+      system('clear')
+
+# Função auxiliar para simular o carregamento do jogo de xadrez
+def carregamentoJogo():
+  print("Carregando o jogo...")
+  for i in range(0, 100):
+    time.sleep(0.1) # Pausa o programa por 0.1s
+    tamanhoBarra = int((i + 1) / 4)
+    barra = "[" + "#" * tamanhoBarra + " " * (25 - tamanhoBarra) + "]"
+    sys.stdout.write(u"\u001b[1000D" +  barra)
+    sys.stdout.flush()
+  print()
 
 # Letras que representam as colunas da matriz tabuleiro
 letras = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
@@ -39,80 +59,50 @@ def verificarOrigemValida(tabuleiro, origem, cor):
         resposta = f'\n{e.estilos["VERMELHO"]}Você está tentando mover uma peça branca. Aguarde sua vez!{e.estilos["REDEFINIR"]}\n'
     else:
       resposta = f'\n{e.estilos["VERMELHO"]}Não há peças nesta posição. Indique uma posição válida!{e.estilos["REDEFINIR"]}\n'
-  except (ValueError, IndexError):
+  except (ValueError, IndexError, TypeError):
     resposta = f'\n{e.estilos["VERMELHO"]}Esta posição não está dentro dos limites do tabuleiro. Tente novamente!{e.estilos["REDEFINIR"]}\n'
 
   return resposta
 
 # Função que define o jogador na rodada atual
 
-def jogadorDaVez(cor,jogador1,jogador2):
-  if cor=='branca':
+def jogadorDaVez(cor, jogador1, jogador2):
+  if cor == 'branca':
     return jogador1
-  else:
-    return jogador2
-    
+  return jogador2
 
-# Função auxiliar para simular o carregamento do jogo de xadrez
-def loading():
-  print("Carregando o jogo...")
-  for i in range(0, 100):
-    time.sleep(0.1)
-    width = int((i + 1) / 4)
-    bar = "[" + "#" * width + " " * (25 - width) + "]"
-    sys.stdout.write(u"\u001b[1000D" +  bar)
-    sys.stdout.flush()
-  print()
-
-#Funções para dinamizar o uso da cor -  CorEPeca() retorna o nome de uma peça da cor atual - inverteCor() inverte a cor atual - listaDePecas() retorna a lista de todas as pecas da cor atual
-def corEpeca(cor,nome):
-  if cor=='preta':
-    return 'p_'+nome
-  elif cor=='branca':
-    return 'b_'+nome
+#Funções para dinamizar o uso da cor -  CorEPeca() retorna o nome de uma peça da cor atual - inverteCor() inverte a cor atual
+def corEpeca(cor, nome):
+  if cor == 'preta':
+    return 'p_' + nome
+  elif cor == 'branca':
+    return 'b_' + nome
 
 def inverteCor(cor):
-  if cor=='branca':
+  if cor == 'branca':
     cor='preta'
   else:
     cor='branca'
   return cor
 
-def listaDePecas(cor):
-  if cor=='preta':
-    return ['p_torre', 'p_cavalo', 'p_bispo', 'p_rainha', 'p_rei', 'p_bispo', 'p_cavalo', 'p_torre', 'p_peao']
-  elif cor=='branca':
-    return ['b_torre', 'b_cavalo', 'b_bispo', 'b_rainha', 'b_rei', 'b_bispo', 'b_cavalo', 'b_torre', 'b_peao']
-
-#Funções que verificam se peças ao redor ameaçam ou não uma determinada posição
-def possibilidadesL(linha=0, coluna=1):
-  valores = []
-  limites = range(8)
-  for i in range(-1,2,2):
-    for j in range(-2,3,4):
-      if linha+i in limites and coluna+j in limites:
-        valores.append([linha+i, coluna+j])
-      if linha+j in limites and coluna+i in limites:
-        valores.append([linha+j, coluna+i]) 
-  return valores   
-
+# Função que varre o tabuleiro verificando todas as posições na vertical e horizontal, analisando se o rei está em xeque
 def verificacaoHorizontalEVertical(tabuleiro, linha, coluna, proximaLinha, proximaColuna, limiteLinha, limiteColuna,cor):
   while True:
-    coluna+=proximaColuna
-    linha+=proximaLinha
+    coluna += proximaColuna
+    linha += proximaLinha
 
     if coluna == limiteColuna or  linha == limiteLinha:
       break
     peca = tabuleiro[linha][coluna]
-    if peca in listaDePecas(cor) and peca!= corEpeca(cor,'rei'):
+    if peca in m.aliados[cor] and peca != corEpeca(cor, 'rei'):
       return False
-    if peca in listaDePecas(inverteCor(cor)) and peca not in [corEpeca(inverteCor(cor),'torre'),corEpeca(inverteCor(cor),'rainha')]:
+    if peca in m.adversarios[cor] and peca not in [corEpeca(inverteCor(cor), 'torre'),corEpeca(inverteCor(cor), 'rainha')]:
       return False
-    if peca in listaDePecas(inverteCor(cor)) and peca in [corEpeca(inverteCor(cor),'torre'),corEpeca(inverteCor(cor),'rainha')]:
+    if peca in m.adversarios[cor] and peca in [corEpeca(inverteCor(cor), 'torre'), corEpeca(inverteCor(cor), 'rainha')]:
       return True 
     
 
-def verificacaoDiagonal(tabuleiro, contLinha, contColuna, proximaLinha, proximaColuna, limiteLinha, limiteColuna,cor):
+def verificacaoDiagonal(tabuleiro, contLinha, contColuna, proximaLinha, proximaColuna, limiteLinha, limiteColuna, cor):
   while True:
     contLinha += proximaLinha
     contColuna += proximaColuna
@@ -120,11 +110,11 @@ def verificacaoDiagonal(tabuleiro, contLinha, contColuna, proximaLinha, proximaC
     if contColuna == limiteColuna or contLinha == limiteLinha:
         break
     peca = tabuleiro[contLinha][contColuna]
-    if (peca in listaDePecas(cor) and peca != corEpeca(cor,'rei')):
+    if (peca in m.aliados[cor] and peca != corEpeca(cor, 'rei')):
         return False
-    if (peca in listaDePecas(inverteCor(cor)) and peca not in [corEpeca(inverteCor(cor),'bispo'),corEpeca(inverteCor(cor),'rainha')]):
+    if (peca in m.adversarios[cor] and peca not in [corEpeca(inverteCor(cor), 'bispo'), corEpeca(inverteCor(cor), 'rainha')]):
        return False
-    if peca in listaDePecas(inverteCor(cor)) and peca in [corEpeca(inverteCor(cor),'bispo'),corEpeca(inverteCor(cor),'rainha')]:  
+    if peca in m.adversarios[cor] and peca in [corEpeca(inverteCor(cor), 'bispo'), corEpeca(inverteCor(cor), 'rainha')]:
         return True
 
 
@@ -136,18 +126,3 @@ def localizarRei(tabuleiro, cor):
 
 def valorOrigem (coluna,linha):
   return '%s%s' %(letras[coluna],linha+1)
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
