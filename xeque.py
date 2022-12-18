@@ -52,9 +52,16 @@ def xeque(tabuleiro,linha,coluna,cor):
    
     return False
 
+def formacaoOriginal(tabuleiro, posicaoRei, cor):
+    multiplicador = -1 if cor == 'branca' else 1
+    prefixoPeca = 'b_' if cor == 'branca' else 'p_'
+    if tabuleiro[posicaoRei[0] + (1 * multiplicador)][posicaoRei[1]] == (prefixoPeca + 'peao') and tabuleiro[posicaoRei[0]][posicaoRei[1] + 1] == (prefixoPeca + 'bispo')and tabuleiro[posicaoRei[0]][posicaoRei[1] - 1] == (prefixoPeca + 'rainha'):
+        return True
+    return False
+
 def xequeMate(tabuleiro, cor):
-    posicaoRei=f.localizarRei(tabuleiro, cor)
-    if (xeque(tabuleiro,posicaoRei[0],posicaoRei[1],cor)) and (m.reiPossibilidades(tabuleiro, f.valorOrigem(posicaoRei[1], posicaoRei[0]), cor)) == []:
+    posicaoRei = f.localizarRei(tabuleiro, cor)
+    if (xeque(tabuleiro, posicaoRei[0], posicaoRei[1], cor)) and (m.reiPossibilidades(tabuleiro, f.valorOrigem(posicaoRei[1], posicaoRei[0]), cor) == []) and (not formacaoOriginal(tabuleiro, posicaoRei, cor)):
         return True
     else:
         return False
