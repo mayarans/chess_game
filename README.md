@@ -21,4 +21,4 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 
 ---
 
-by mayarans and thiagotrajanodev
+by [mayarans](https://github.com/mayarans) and [thiagotrajanodev](https://github.com/ThiagoTrajanoDev)
