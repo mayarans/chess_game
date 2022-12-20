@@ -1,5 +1,7 @@
-import funcs_auxiliares as f
-import xeque as x
+# ARQUIVO QUE CONTÉM FUNÇÕES RESPONSÁVEIS POR VERIFICAR POSSIBILIDADES DE MOVIMENTOS
+
+import funcs_auxiliares as f # Importa as funções auxiliares
+import xeque as x # Importa funções que derterminam xeque e xeque-mate
 
 # Variáveis utilizadas em todas as funções de movimento
 aliados = {"preta": ['p_torre', 'p_cavalo', 'p_bispo', 'p_rainha', 'p_rei', 'p_bispo', 'p_cavalo', 'p_torre', 'p_peao'], "branca": ['b_torre', 'b_cavalo', 'b_bispo', 'b_rainha', 'b_rei', 'b_bispo', 'b_cavalo', 'b_torre', 'b_peao']}
@@ -18,10 +20,13 @@ def possibilidades(tabuleiro, origem, cor):
   # Verificando se a peça é uma torre
   elif peca in ['p_torre', 'b_torre']:
     return torrePossibilidades(tabuleiro, origem, cor)
+  # Verificando se a peça é um bispo
   elif peca in ['p_bispo','b_bispo']:
     return bispoPossibilidades(tabuleiro,origem,cor)
+  # Verificando se a peça é uma rainha
   elif peca in['b_rainha','p_rainha']:
     return rainhaPossibilidades(tabuleiro,origem,cor)
+# Verificando se a peça é um rei
   elif peca in ['b_rei','p_rei']:
     return reiPossibilidades(tabuleiro,origem,cor)
 
@@ -32,7 +37,7 @@ def peaoPossibilidades(tabuleiro, origem, cor):
   resultado = []
 
   multiplicador = 1 if cor == "preta" else -1
-    # Movimento do peão duas casas para frente caso seja a primeira jogada
+  # Movimento do peão duas casas para frente caso seja a primeira jogada
   if linha in [1, 6]:
     if tabuleiro[linha + (2 * multiplicador)][coluna] not in (adversarios[cor] + aliados[cor]):
       lista = [linha + (2 * multiplicador), coluna]
@@ -52,7 +57,7 @@ def peaoPossibilidades(tabuleiro, origem, cor):
   
   return limites(resultado)
 
-
+# Funções que retorna as possibildadades com movimento em "L" dentro dos limites do tabuleiro
 def possibilidadesL(posicao):
   linha, coluna = posicao
   resultado = []
@@ -64,7 +69,7 @@ def possibilidadesL(posicao):
   return limites(resultado)
 
 
-# Função que retorna todas as possibilidades de movimento caso a peça seja o cavalo
+# Função que retorna todas as possibilidades de movimento do cavalo
 def cavaloPossibilidades(tabuleiro, origem, cor):
   linha, coluna = f.linha(origem), f.coluna(origem)
   pecasAliadas = aliados[cor]
@@ -76,7 +81,7 @@ def cavaloPossibilidades(tabuleiro, origem, cor):
       movimentosPossiveis.append(i)
   return movimentosPossiveis
 
-
+# Função que retorna todas as possibilidades de movimento da torre
 def torrePossibilidades(tabuleiro, origem, cor):
   linha = f.linha(origem)
   coluna = f.coluna(origem)
@@ -90,7 +95,7 @@ def torrePossibilidades(tabuleiro, origem, cor):
   
   return movimentosPossiveis
 
-
+# Função que retorna todas as possibilidades horizontais, verticais e diagonais
 def auxiliarRainhaPossibilidades(tabuleiro, posicao, proximaPosicao, limite, cor):
   contLinha, contColuna = posicao
   pecasAliadas = aliados[cor]
@@ -112,7 +117,7 @@ def auxiliarRainhaPossibilidades(tabuleiro, posicao, proximaPosicao, limite, cor
   
   return resultado
 
-
+# Função que retorna todas as possibilidades de movimento do bispo
 def bispoPossibilidades(tabuleiro, origem, cor):
   linha = f.linha(origem)
   coluna = f.coluna(origem)
@@ -126,11 +131,11 @@ def bispoPossibilidades(tabuleiro, origem, cor):
   
   return movimentosPossiveis
 
-
+# Função que retorna todas as possibilidades de movimento da rainha
 def rainhaPossibilidades(tabuleiro,origem,cor):
   return bispoPossibilidades(tabuleiro, origem, cor) + torrePossibilidades(tabuleiro, origem, cor)
 
-
+# Função que retorna todas as possibilidades de movimento do rei dentro dos limites do tabuleiro
 def auxiliarReiPossibilidades(origem):
   linha = f.linha(origem)
   coluna = f.coluna(origem)
@@ -144,18 +149,7 @@ def auxiliarReiPossibilidades(origem):
   
   return limites(resultado)
 
-#Função que retorna a intersecção do movimento dos dois reis
-def xequeReiparaRei (tabuleiro,possibilidades,cor):
-    posicaoReiInimigo = f.localizarRei(tabuleiro,f.inverteCor(cor))
-    possibilidadeReiAtual=possibilidades
-    possibilidadeReiInimgo= auxiliarReiPossibilidades(f.valorOrigem(posicaoReiInimigo[1],posicaoReiInimigo[0]))
-    interseccao = []
-    #Procurando a intersecção de movimento entre os dois reis
-    for possibilidades_a in possibilidadeReiAtual:
-      for possibilidades_b in possibilidadeReiInimgo:
-        if possibilidades_a == possibilidades_b:
-          interseccao.append(possibilidades_a)
-    return interseccao
+
 
 # Função que retorna todas as possibilidades de movimento para um rei
 def reiPossibilidades(tabuleiro, origem, cor):
@@ -165,10 +159,10 @@ def reiPossibilidades(tabuleiro, origem, cor):
   # Atualizando a lista dentro dos limites do tabuleiro e verificando as posições possíveis para movimento
   movimentosPossiveis = []
   possibilidades = auxiliarReiPossibilidades(origem)
-  #Verficando se as possibilidades de movimento do rei atual
+  # Verficando se as possibilidades de movimento do rei atual
   for i in possibilidades:
     posicaoAtual = tabuleiro[i[0]][i[1]]
-    if posicaoAtual not in pecasAliadas and not x.xeque(tabuleiro, i[0], i[1], cor) and i not in xequeReiparaRei(tabuleiro,possibilidades,cor):
+    if posicaoAtual not in pecasAliadas and not x.xeque(tabuleiro, i[0], i[1], cor) and i not in x.xequeReiparaRei(tabuleiro,possibilidades,cor):
       movimentosPossiveis.append([i[0], i[1]])
   
   return movimentosPossiveis
@@ -179,12 +173,7 @@ def verificarDestinoValido(destino, possibilidades):
     posicaoDestino = [f.linha(destino), f.coluna(destino)]
     return posicaoDestino in possibilidades
 
-def reiForaDeXeque(copiaTabuleiro,cor,origem,destino):
-  realizarMovimento(copiaTabuleiro,origem,destino)
-  posicaoReiAliado =f.localizarRei(copiaTabuleiro, cor)
-  foraDeXeque=  not x.xeque(copiaTabuleiro,posicaoReiAliado[0],posicaoReiAliado[1],cor)
-  realizarMovimento(copiaTabuleiro,destino,origem)
-  return foraDeXeque
+
 
 # Função para realizar o movimento da peça e substituir sua posição de origem pelo quadrado correspondente
 def realizarMovimento(tabuleiro, origem, destino):
@@ -195,7 +184,7 @@ def realizarMovimento(tabuleiro, origem, destino):
   else:
     tabuleiro[f.linha(origem)][f.coluna(origem)] = 'p_quadrado'
 
-
+# Função que filtra as possibilidades de movimento que estão dentro dos limites do tabuleiro
 def limites(possibilidades):
   limites = range(8)
   return [i for i in possibilidades if i[0] in limites and i[1] in limites]

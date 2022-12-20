@@ -1,8 +1,11 @@
-import movimentos as m
-import funcs_auxiliares as f
-import tabuleiro as t
-import estilos as e
-import xeque as x
+#PROGRAMA PRINCIPAL RESPONSÁVEL POR RODAR O JOGO :)
+
+import movimentos as m #Importa os movimentos das peças
+import funcs_auxiliares as f #Importa as funções auxiliares
+import tabuleiro as t #Importa funções para montar e renderizar o tabuleiro
+import estilos as e #Importa os estilos aplicados as strings
+import xeque as x #Importa funções que derterminam xeque e xeque-mate
+
 
 # Chamada de função para limpar a tela
 f.limparTela()
@@ -29,14 +32,15 @@ print(f'''INSTRUÇÕES:\n
 
 # A montagem do tabuleiro retorna a matriz que será armazenada na variável "tabuleiro"
 tabuleiro = t.montarTabuleiro()
+
 # Letras de identificação das colunas
 letras = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
 
 # Recebendo informações dos jogadores
 jogador1 = input('Nome do jogador 1 (peças brancas): ')
 jogador2 = input('Nome do jogador 2 (peças pretas): ')
-
 cor = 'branca'
+
 while True:
   # Chamada de função para limpar a tela
   f.limparTela()
@@ -72,8 +76,8 @@ while True:
     if not verificacao:
       print(f'\n{e.estilos["VERMELHO"]}Este não é um movimento válido para esta peça. Tente novamente!{e.estilos["REDEFINIR"]}\n')
       continue
-    elif not m.reiForaDeXeque(tabuleiro.copy(),cor,origemJogada,destinoJogada):
-      print(f'\n{e.estilos["VERMELHO"]}Este movimento não retira o seu Rei de xeque. Tente novamente!{e.estilos["REDEFINIR"]}\n')
+    elif not x.reiForaDeXeque(tabuleiro.copy(),cor,origemJogada,destinoJogada):
+      print(f'\n{e.estilos["VERMELHO"]}Com esse movimento seu rei fica em xeque. Tente novamente!{e.estilos["REDEFINIR"]}\n')
       continue
     break
   if escolherOutraOrigem:
@@ -91,7 +95,3 @@ while True:
     t.mostrarTabuleiro(tabuleiro, letras)
     print(f'{e.estilos["VERMELHO"]}XEQUE-MATE!{e.estilos["REDEFINIR"]}\n{e.estilos["VERDE"]}{f.jogadorDaVez(f.inverteCor(cor), jogador1, jogador2).upper()} VENCEU A PARTIDA{e.estilos["REDEFINIR"]}')
     break
-    
-    
-  
- 

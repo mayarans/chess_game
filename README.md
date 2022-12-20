@@ -5,7 +5,7 @@
   <a href="#-tecnologias">Tecnologias</a>
 </p>
 
-<p slign="center">
+<p align="center">
   <img src="print_xadrez.png" alt="print do jogo no terminal">
 </p>
 

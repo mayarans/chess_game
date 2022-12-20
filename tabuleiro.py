@@ -1,4 +1,6 @@
-import estilos
+#ARQUIVO QUE CONTÉM TODAS AS FUNÇÕES PARA RENDERIZAR O TABULEIRO
+
+import estilos #Importa os estilos aplicados as strings
 
 # Dicionário de peças utilizadas para montar o tabuleiro de xadrez
 pecas = {
@@ -55,4 +57,3 @@ def mostrarTabuleiro(tabuleiro, letras,possibilidades=[]):
       print(estilos.estilos['REDEFINIR'] + estilos.estilos['REDEFINIR'], end='')
     print()
   print()
-
