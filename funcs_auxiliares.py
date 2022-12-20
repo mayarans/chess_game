@@ -1,14 +1,16 @@
-import time, sys
-import estilos as e
-from os import system, name
-import movimentos as m
+#ARQUIVO QUE CONTÉM FUNÇÕES QUE AULIXIAM NO FUNCIONAMENTO DO RESTANTE DO PROGRAMA 
+
+import time, sys #Importação de módulos que auxiliam no carregamento
+import estilos as e #Importa os estilos aplicados as strings
+from os import system, name #Importação de módulos que auxiliam na limpeza de tela
+import movimentos as m #Importa os movimentos das peças
 
 # Função utilizada para limpar a tela a cada jogada
 def limparTela():
     # Para windows
     if name == 'nt':
       system('cls')
-    # Para mac and linux(here, os.name is 'posix')
+    # Para mac e linux
     else:
       system('clear')
 
@@ -84,45 +86,3 @@ def inverteCor(cor):
   else:
     cor='branca'
   return cor
-
-# Função que varre o tabuleiro verificando todas as posições na vertical e horizontal, analisando se o rei está em xeque
-def verificacaoHorizontalEVertical(tabuleiro, linha, coluna, proximaLinha, proximaColuna, limiteLinha, limiteColuna,cor):
-  while True:
-    coluna += proximaColuna
-    linha += proximaLinha
-
-    if coluna == limiteColuna or  linha == limiteLinha:
-      break
-    peca = tabuleiro[linha][coluna]
-    if peca in m.aliados[cor] and peca != corEpeca(cor, 'rei'):
-      return False
-    if peca in m.adversarios[cor] and peca not in [corEpeca(inverteCor(cor), 'torre'),corEpeca(inverteCor(cor), 'rainha')]:
-      return False
-    if peca in m.adversarios[cor] and peca in [corEpeca(inverteCor(cor), 'torre'), corEpeca(inverteCor(cor), 'rainha')]:
-      return True 
-    
-
-def verificacaoDiagonal(tabuleiro, contLinha, contColuna, proximaLinha, proximaColuna, limiteLinha, limiteColuna, cor):
-  while True:
-    contLinha += proximaLinha
-    contColuna += proximaColuna
-
-    if contColuna == limiteColuna or contLinha == limiteLinha:
-        break
-    peca = tabuleiro[contLinha][contColuna]
-    if (peca in m.aliados[cor] and peca != corEpeca(cor, 'rei')):
-        return False
-    if (peca in m.adversarios[cor] and peca not in [corEpeca(inverteCor(cor), 'bispo'), corEpeca(inverteCor(cor), 'rainha')]):
-       return False
-    if peca in m.adversarios[cor] and peca in [corEpeca(inverteCor(cor), 'bispo'), corEpeca(inverteCor(cor), 'rainha')]:
-        return True
-
-
-def localizarRei(tabuleiro, cor):
-  for i in range(8):
-    for j in range(8):
-      if tabuleiro[i][j] == corEpeca(cor,'rei'):
-        return [i, j]
-
-def valorOrigem (coluna,linha):
-  return '%s%s' %(letras[coluna],linha+1)
